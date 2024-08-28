@@ -1809,6 +1809,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "prettier@npm:3.3.3"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: bc8604354805acfdde6106852d14b045bb20827ad76a5ffc2455b71a8257f94de93f17f14e463fe844808d2ccc87248364a5691488a3304f1031326e62d9276e
+  languageName: node
+  linkType: hard
+
 "proc-log@npm:^4.1.0, proc-log@npm:^4.2.0":
   version: 4.2.0
   resolution: "proc-log@npm:4.2.0"
@@ -2151,6 +2160,7 @@ __metadata:
     "@types/react-dom": ^18.3.0
     "@vitejs/plugin-react": ^4.3.1
     globals: ^15.9.0
+    prettier: ^3.3.3
     react: ^18.3.1
     react-dom: ^18.3.1
     rimraf: ^6.0.1

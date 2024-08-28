@@ -8,7 +8,9 @@
     "clean:npm": "rimraf ./node_modules",
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier": "prettier src --check --ignore-path .gitignore .",
+    "prettier:fix": "prettier src --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -22,6 +24,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "globals": "^15.9.0",
+    "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
