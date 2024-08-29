@@ -1,22 +1,22 @@
-import { defineConfig, UserConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
+import react from '@vitejs/plugin-react';
+import { defineConfig, UserConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 const defaultConfig = {
+  build: {
+    outDir: 'build',
+  },
   plugins: [
     react({
       babel: {
-        presets: ["@babel/preset-typescript"]
-      }
+        presets: ['@babel/preset-typescript'],
+      },
     }),
     tsconfigPaths(),
   ],
   resolve: {
-    extensions: ['.ts', '.tsx', '.json']
+    extensions: ['.ts', '.tsx', '.json'],
   },
-  build: {
-    outDir: 'build'
-  }
 } as UserConfig;
 
 export default defineConfig(({ command }) => {
@@ -24,13 +24,13 @@ export default defineConfig(({ command }) => {
     return {
       ...defaultConfig,
       server: {
-        port: 3007,
         open: true,
+        port: 3007,
       },
-    }
+    };
   }
 
   return {
     ...defaultConfig,
-  }
-})
+  };
+});

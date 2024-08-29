@@ -6,7 +6,7 @@ export const App = () => {
   return (
     <ThemeProvider theme={{}}>
       <GlobalStyle />
-      <>App</>
+      <div>App</div>
     </ThemeProvider>
-  )
-}
+  );
+};
