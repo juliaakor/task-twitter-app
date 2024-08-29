@@ -1,7 +1,12 @@
 {
   "name": "task-twitter-app",
   "private": true,
-  "version": "0.0.0",
+  "packageManager": "yarn@3.6.1",
+  "engines": {
+    "node": "18 || 20",
+    "yarn": "3.6.1"
+  },
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "clean": "rimraf ./build",
@@ -15,6 +20,9 @@
     "prettier:fix": "prettier src --write --ignore-path .gitignore .",
     "prepare": "husky"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
