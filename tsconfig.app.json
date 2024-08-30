@@ -28,7 +28,8 @@
       "@/*": ["./src/*"],
       "@store/*": ["./src/store/*"],
       "@styles/*": ["./src/styles/*"],
-      "@pages/*": ["./src/pages/*"]
+      "@pages/*": ["./src/pages/*"],
+      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["src"]
