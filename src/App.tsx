@@ -1,11 +1,11 @@
 import { ThemeProvider } from 'styled-components';
 
-import GlobalStyle from './global';
+import { getTheme, GlobalStyles } from '@styles/index';
 
 export const App = () => {
   return (
-    <ThemeProvider theme={{}}>
-      <GlobalStyle />
+    <ThemeProvider theme={getTheme()}>
+      <GlobalStyles />
       <div>App</div>
     </ThemeProvider>
   );
