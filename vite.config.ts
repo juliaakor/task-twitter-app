@@ -15,7 +15,7 @@ const defaultConfig = {
     tsconfigPaths(),
   ],
   resolve: {
-    extensions: ['.ts', '.tsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
 } as UserConfig;
 
