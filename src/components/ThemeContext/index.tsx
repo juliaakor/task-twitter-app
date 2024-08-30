@@ -1,30 +1,18 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import { ContextProps, ThemeProviderProps, Theme } from './types';
+import { useAppSelector } from '@store/index';
+import { selectIsLightMode } from '@store/theme';
+import { getTheme, GlobalStyles } from '@styles/index';
 
-export const ThemeContext = createContext<ContextProps>({
-  darkTheme: false,
-  toggleTheme: () => {},
-});
+import { ThemeContextProps } from './types';
 
-export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [darkTheme, setDarkTheme] = useState(false);
+export const ThemeContext = ({ children }: ThemeContextProps) => {
+  const isLightMode = useAppSelector(selectIsLightMode);
 
-  const toggleThemeHandler = () => {
-    setDarkTheme((prevState) => !prevState);
-  };
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', darkTheme ? Theme.Dark : Theme.Light);
-  }, [darkTheme]);
-
-  const value = useMemo(
-    () => ({
-      darkTheme,
-      toggleTheme: toggleThemeHandler,
-    }),
-    [darkTheme]
+  return (
+    <ThemeProvider theme={getTheme(isLightMode)}>
+      <GlobalStyles />
+      {children}
+    </ThemeProvider>
   );
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };

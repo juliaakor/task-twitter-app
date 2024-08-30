@@ -1,12 +1,15 @@
-import { ThemeProvider } from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { getTheme, GlobalStyles } from '@styles/index';
+import { router } from './router';
 
 export const App = () => {
   return (
-    <ThemeProvider theme={getTheme()}>
-      <GlobalStyles />
-      <div>App</div>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Routes>
+        {router.map(({ Component, path }) => (
+          <Route Component={Component} key={path} path={path} />
+        ))}
+      </Routes>
+    </BrowserRouter>
   );
 };
