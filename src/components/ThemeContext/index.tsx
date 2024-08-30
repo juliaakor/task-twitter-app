@@ -4,9 +4,9 @@ import { useAppSelector } from '@store/index';
 import { selectIsLightMode } from '@store/theme';
 import { getTheme, GlobalStyles } from '@styles/index';
 
-import { ThemeProviderProps } from './types';
+import { ThemeContextProps } from './types';
 
-export const ThemeContext = ({ children }: ThemeProviderProps) => {
+export const ThemeContext = ({ children }: ThemeContextProps) => {
   const isLightMode = useAppSelector(selectIsLightMode);
 
   return (

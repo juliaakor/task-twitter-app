@@ -1,3 +1,3 @@
-export interface ThemeProviderProps {
+export interface ThemeContextProps {
   children?: React.ReactNode;
 }
