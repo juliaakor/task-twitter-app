@@ -17,13 +17,12 @@
     "lint": "npx eslint --max-warnings=0 --ignore-path .gitignore .",
     "lint:fix": "npx eslint --ignore-path .gitignore . --fix",
     "prettier": "prettier src --check --ignore-path .gitignore .",
-    "prettier:fix": "prettier src --write --ignore-path .gitignore .",
-    "prepare": "husky"
+    "prettier:fix": "prettier src --write --ignore-path .gitignore ."
   },
   "husky": {
     "hooks": {
       "commit-msg": "npx --no -- commitlint --edit $1",
-      "pre-commit": "yarn lint yarn prettier"
+      "pre-commit": "yarn lint && yarn prettier"
     }
   },
   "keywords": [],
@@ -58,7 +57,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
-    "husky": "^9.1.5",
+    "husky": "4",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "typescript": "^5.5.3",
