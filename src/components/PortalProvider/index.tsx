@@ -1,21 +1,20 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 import { PortalProviderProps } from './types';
 
 const PortalContext = createContext<HTMLElement | null>(null);
 
 export const PortalProvider = ({ children }: PortalProviderProps) => {
-  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
+  const [portalRoot] = useState<HTMLElement>(() => {
     const div = document.createElement('div');
     document.body.appendChild(div);
-    setPortalRoot(div);
 
-    return () => {
-      document.body.removeChild(div);
-    };
-  }, []);
+    return div;
+  });
+
+  if (!portalRoot) {
+    throw new Error('Portal root could not be created');
+  }
 
   return <PortalContext.Provider value={portalRoot}>{portalRoot ? children : null}</PortalContext.Provider>;
 };
