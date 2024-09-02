@@ -5,7 +5,7 @@ export interface ThemeState {
 export const TOGGLE_LIGHT_MODE: string = 'TOGGLE_LIGHT_MODE';
 
 export interface ToggleLightModeAction {
-  type: typeof TOGGLE_LIGHT_MODE;
+  type: string;
 }
 
 export type ThemeActionTypes = ToggleLightModeAction;

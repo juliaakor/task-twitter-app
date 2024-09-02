@@ -99,6 +99,7 @@
       {
         "varsIgnorePattern": "^_$"
       }
-    ]
+    ],
+    "default-param-last": 0
   }
 }

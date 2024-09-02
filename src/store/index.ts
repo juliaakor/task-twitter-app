@@ -3,7 +3,9 @@ import { createStore, combineReducers, Reducer, Middleware, applyMiddleware, Dis
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/es/storage';
+import createSagaMiddleware from 'redux-saga';
 
+import { testSaga } from '@store/saga';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
 
@@ -27,10 +29,14 @@ const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Midd
   return createStore(reducers, enhancer);
 };
 
-const middlewares: Middleware[] = [];
+const sagaMiddleware = createSagaMiddleware();
+
+const middlewares: Middleware[] = [sagaMiddleware];
 
 const store = create(persistedReducer, middlewares);
 const persistor = persistStore(store);
+
+sagaMiddleware.run(testSaga);
 
 export type AppDispatch = Dispatch<ThemeActionTypes>;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
