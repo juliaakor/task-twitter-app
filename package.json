@@ -20,6 +20,12 @@
     "prettier:fix": "prettier src --write --ignore-path .gitignore .",
     "prepare": "husky"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "npx --no -- commitlint --edit $1",
+      "pre-commit": "yarn lint yarn prettier"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
