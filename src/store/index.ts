@@ -1,5 +1,7 @@
+import { composeWithDevToolsDevelopmentOnly } from '@redux-devtools/extension';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStore, combineReducers, Reducer, Middleware, applyMiddleware, Dispatch } from 'redux';
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/es/storage';
@@ -24,14 +26,15 @@ export type RootState = ReturnType<typeof rootReducer>;
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Middleware[]) => {
-  const enhancer = applyMiddleware(...middlewares);
+  const enhancer = composeWithDevToolsDevelopmentOnly(applyMiddleware(...middlewares));
 
   return createStore(reducers, enhancer);
 };
 
 const sagaMiddleware = createSagaMiddleware();
+const immutableMiddleware = import.meta.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
 
-const middlewares: Middleware[] = [sagaMiddleware];
+const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 
 const store = create(persistedReducer, middlewares);
 const persistor = persistStore(store);
