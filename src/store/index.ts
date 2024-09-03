@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createStore, combineReducers, Reducer, Middleware, applyMiddleware, Dispatch } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
-import storage from 'redux-persist/es/storage';
+import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
 import { testSaga } from '@store/saga';
