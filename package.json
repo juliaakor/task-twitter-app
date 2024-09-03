@@ -7,7 +7,6 @@
     "yarn": "3.6.1"
   },
   "version": "0.1.0",
-  "type": "module",
   "scripts": {
     "clean": "rimraf ./build",
     "clean:npm": "rimraf ./node_modules",
@@ -21,7 +20,9 @@
     "test": "jest --watch",
     "test:all": "jest --watchAll",
     "test:ci": "jest --ci",
-    "test:coverage": "rimraf ./coverage && jest --coverage && open coverage/lcov-report/index.html"
+    "test:coverage": "rimraf ./coverage && jest --coverage && open coverage/lcov-report/index.html",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "husky": {
     "hooks": {
@@ -52,6 +53,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "cypress": "^13.14.1",
     "eslint": "^8.5.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
