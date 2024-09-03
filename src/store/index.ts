@@ -4,7 +4,7 @@ import { createStore, combineReducers, Reducer, Middleware, applyMiddleware, Dis
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
-import storage from 'redux-persist/es/storage';
+import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
 import { testSaga } from '@store/saga';
@@ -32,7 +32,7 @@ const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Midd
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const immutableMiddleware = import.meta.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
+const immutableMiddleware = process.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
 
 const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 
