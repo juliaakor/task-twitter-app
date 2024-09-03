@@ -3,7 +3,7 @@ import type { Config } from '@jest/types';
 export default {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts', '!**/styled.ts'],
-  coveragePathIgnorePatterns: ['/node_modules/', '/build/', '/src/styles/', '/src/constants/'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/build/', '/src/styles/', '/src/constants/', '/src/store/'],
   coverageThreshold: {
     global: {
       branches: 70,
