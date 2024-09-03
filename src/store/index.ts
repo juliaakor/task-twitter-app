@@ -7,6 +7,7 @@ import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
+import { ENV } from '@constants/env';
 import { testSaga } from '@store/saga';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
@@ -32,7 +33,7 @@ const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Midd
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const immutableMiddleware = process.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
+const immutableMiddleware = ENV.mode !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
 
 const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 
