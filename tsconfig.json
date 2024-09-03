@@ -9,7 +9,7 @@
       "@constants/*": ["./src/constants/*"],
       "@components/*": ["./src/components/*"]
     },
-    "module": "ES2015"
+    "module": "ESNext"
   },
   "exclude": ["cypress", "cypress.config.ts"],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]

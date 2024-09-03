@@ -32,7 +32,7 @@ const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Midd
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const immutableMiddleware = import.meta.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
+const immutableMiddleware = process.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
 
 const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 

@@ -1,4 +1,4 @@
-import type { Config } from '@jest/types';
+import type { JestConfigWithTsJest } from 'ts-jest';
 
 export default {
   collectCoverage: true,
@@ -35,4 +35,4 @@ export default {
       },
     ],
   },
-} as Config.InitialOptions;
+} as JestConfigWithTsJest;
