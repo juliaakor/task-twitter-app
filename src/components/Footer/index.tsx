@@ -11,7 +11,7 @@ import { FooterOptionButton, FooterProps } from './types';
 
 const FooterOption = (isFullView: boolean, { label, link }: DropdownOption) => {
   return (
-    <Link to={link || ''}>
+    <Link to={link || ''} key={label}>
       <FooterItem $isFullView={isFullView}>{label}</FooterItem>
     </Link>
   );
