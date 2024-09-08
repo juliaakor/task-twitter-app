@@ -1,5 +1,12 @@
+import { lazy } from 'react';
+
 import { ROUTES } from '@constants/routes';
-import { ErrorPage, FeedPage, NotFoundPage, ProfilePage, SigninPage, SignupPage } from '@pages/index';
+import { ErrorPage, NotFoundPage } from '@pages/index';
+
+const FeedPage = lazy(() => import('@pages/Feed').then((module) => ({ default: module.FeedPage })));
+const ProfilePage = lazy(() => import('@pages/Profile').then((module) => ({ default: module.ProfilePage })));
+const SigninPage = lazy(() => import('@pages/Signin').then((module) => ({ default: module.SigninPage })));
+const SignupPage = lazy(() => import('@pages/Signup').then((module) => ({ default: module.SignupPage })));
 
 export const router = [
   {
