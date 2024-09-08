@@ -1,7 +1,7 @@
 export const spacing = {
   large: '2rem',
   large2X: '2.5rem',
-  large3X: '2.875ren',
+  large3X: '2.875rem',
   large4X: '3rem',
   large5X: '6rem',
   largeX: '2.25rem',
@@ -19,8 +19,10 @@ export const spacing = {
 };
 
 export const size = {
+  footerHeight: '3.4rem',
   full: '100%',
   half: '50%',
+  none: 0,
   small: 1,
   small2X: 4,
   small3X: 5,
@@ -28,6 +30,8 @@ export const size = {
 };
 
 export const radius = {
+  button: '76px',
   circle: '50%',
-  smal: '6px',
+  small: '6px',
+  switch: '15px',
 };

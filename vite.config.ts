@@ -2,27 +2,33 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const defaultConfig = {
-  build: {
-    outDir: 'build',
-  },
-  plugins: [
-    react({
-      babel: {
-        presets: ['@babel/preset-typescript'],
+const getDefaultConfig = (mode: string) =>
+  ({
+    build: {
+      outDir: 'build',
+    },
+    define: {
+      'process.env': {
+        MODE: mode,
       },
-    }),
-    tsconfigPaths(),
-  ],
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-  },
-} as UserConfig;
+    },
+    plugins: [
+      react({
+        babel: {
+          presets: ['@babel/preset-typescript'],
+        },
+      }),
+      tsconfigPaths(),
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.png'],
+    },
+  }) as UserConfig;
 
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
   if (command === 'serve') {
     return {
-      ...defaultConfig,
+      ...getDefaultConfig(mode),
       server: {
         open: true,
         port: 3007,
@@ -31,6 +37,6 @@ export default defineConfig(({ command }) => {
   }
 
   return {
-    ...defaultConfig,
+    ...getDefaultConfig(mode),
   };
 });
