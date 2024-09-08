@@ -33,6 +33,7 @@ export const resetStyles = css`
     `}
 
     isolation: isolate;
+    min-height: 100vh;
   }
 
   a {
