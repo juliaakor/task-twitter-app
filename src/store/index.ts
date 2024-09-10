@@ -10,6 +10,7 @@ import createSagaMiddleware from 'redux-saga';
 import { ENV } from '@constants/env';
 import { authReducer } from '@store/auth/authReducers';
 import { AuthActionTypes } from '@store/auth/types';
+import { generalSaga } from '@store/saga';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
 
@@ -42,7 +43,7 @@ const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 const store = create(persistedReducer, middlewares);
 const persistor = persistStore(store);
 
-sagaMiddleware.run(testSaga);
+sagaMiddleware.run(generalSaga);
 
 export type AppDispatch = Dispatch<ThemeActionTypes | AuthActionTypes>;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
