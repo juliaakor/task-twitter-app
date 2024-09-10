@@ -8,7 +8,10 @@
       "@styles/*": ["./src/styles/*"],
       "@pages/*": ["./src/pages/*"],
       "@constants/*": ["./src/constants/*"],
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
+      "@type/*": ["./src/types/*"],
+      "@repositories/*": ["./src/repositories/*"],
+      "@hooks/*": ["./src/hooks/*"]
     },
     "module": "ESNext"
   },
