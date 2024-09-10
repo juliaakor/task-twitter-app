@@ -1,6 +1,9 @@
 import react from '@vitejs/plugin-react';
+import { config } from 'dotenv';
 import { defineConfig, UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
+config();
 
 const getDefaultConfig = (mode: string) =>
   ({
