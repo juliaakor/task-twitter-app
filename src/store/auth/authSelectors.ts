@@ -1,5 +1,5 @@
-import { User } from '@/types/models/User';
 import { RootState } from '@store/index';
+import { User } from '@type/models/User';
 
 export const selectAuthState = (state: RootState) => state.auth;
 

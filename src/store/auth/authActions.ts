@@ -1,6 +1,4 @@
-import { User } from '@/types/models/User';
-import { UserRegistration } from '@/types/models/UserRegistration';
-import { UserLogin } from '@type/models/UserLogin';
+import { User, UserLogin, UserRegistration } from '@type/models';
 
 import { AUTH_ACTION_TYPES } from './types';
 

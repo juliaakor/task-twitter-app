@@ -33,7 +33,9 @@
       "@constants/*": ["./src/constants/*"],
       "@components/*": ["./src/components/*"],
       "@type/*": ["./src/types/*"],
-      "@repositories/*": ["./src/repositories/*"]
+      "@repositories/*": ["./src/repositories/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src"]

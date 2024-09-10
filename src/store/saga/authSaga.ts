@@ -1,8 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { User } from '@/types/models/User';
-import { UserLogin } from '@/types/models/UserLogin';
-import { UserRegistration } from '@/types/models/UserRegistration';
+import { User, UserLogin, UserRegistration } from '@type/models';
 
 import { UserAuthRepository } from '../../repositories/UserAuthRepository';
 import {

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { User } from '@/types/models/User';
+import { User } from '@type/models/User';
 
 import {
   AuthActionTypes,

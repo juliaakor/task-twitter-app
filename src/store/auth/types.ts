@@ -1,5 +1,4 @@
-import { User } from '@type/models/User';
-import { UserLogin } from '@type/models/UserLogin';
+import { User, UserLogin } from '@type/models';
 
 export interface AuthState {
   error: string | null;

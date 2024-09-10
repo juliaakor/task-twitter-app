@@ -10,11 +10,8 @@ import {
 } from 'firebase/auth';
 import { getDoc, setDoc, doc, Firestore, query, collection, where, getDocs } from 'firebase/firestore';
 
-import { User } from '@/types/models/User';
-import { UserLogin } from '@/types/models/UserLogin';
-import { UserRegistration } from '@/types/models/UserRegistration';
-
-import { auth, db } from '../firebase';
+import { auth, db } from '@/firebase';
+import { User, UserLogin, UserRegistration } from '@type/models';
 
 interface AuthRepository {
   signUpUser(data: UserRegistration): Promise<User | undefined>;
