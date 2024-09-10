@@ -22,6 +22,7 @@ export const signUpRequest = (data: UserRegistration) => createAction(AUTH_ACTIO
 export const signUpSuccess = (user: User) => createAction(AUTH_ACTION_TYPES.SIGN_UP_SUCCESS, user);
 export const signUpFail = (error: string) => createAction(AUTH_ACTION_TYPES.SIGN_UP_FAIL, error);
 
+export const signOutRequest = () => createAction(AUTH_ACTION_TYPES.SIGN_OUT_REQUEST);
 export const signOutSuccess = () => createAction(AUTH_ACTION_TYPES.SIGN_OUT_SUCCESS);
 export const signOutFail = (error: string) => createAction(AUTH_ACTION_TYPES.SIGN_OUT_FAIL, error);
 

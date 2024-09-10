@@ -16,6 +16,7 @@ import {
   SIGN_UP_WITH_GOOGLE_REQUEST,
   SIGN_UP_WITH_GOOGLE_SUCCESS,
   SIGN_UP_WITH_GOOGLE_FAIL,
+  SIGN_OUT_REQUEST,
 } from './types';
 
 const initialState: AuthState = {
@@ -30,6 +31,7 @@ export const authReducer: Reducer<AuthState, AuthActionTypes> = (state = initial
     case SIGN_IN_REQUEST:
     case SIGN_UP_REQUEST:
     case SIGN_UP_WITH_GOOGLE_REQUEST:
+    case SIGN_OUT_REQUEST:
       return {
         ...state,
         error: null,

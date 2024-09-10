@@ -14,6 +14,7 @@ export const SIGN_IN_FAIL: string = 'SIGN_IN_FAIL';
 export const SIGN_UP_REQUEST: string = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS: string = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAIL: string = 'SIGN_UP_FAIL';
+export const SIGN_OUT_REQUEST: string = 'SIGN_OUT_REQUEST';
 export const SIGN_OUT_SUCCESS: string = 'SIGN_OUT_SUCCESS';
 export const SIGN_OUT_FAIL: string = 'SIGN_OUT_FAIL';
 export const SIGN_UP_WITH_GOOGLE_REQUEST: string = 'SIGN_UP_WITH_GOOGLE_REQUEST';
@@ -21,55 +22,59 @@ export const SIGN_UP_WITH_GOOGLE_SUCCESS: string = 'SIGN_UP_WITH_GOOGLE_SUCCESS'
 export const SIGN_UP_WITH_GOOGLE_FAIL: string = 'SIGN_UP_WITH_GOOGLE_FAIL';
 
 interface SignInRequestAction {
-  type: typeof SIGN_IN_REQUEST;
+  type: string;
   payload: UserLogin;
 }
 
 interface SignInSuccessAction {
-  type: typeof SIGN_IN_SUCCESS;
+  type: string;
   payload: User;
 }
 
 interface SignInFailAction {
-  type: typeof SIGN_IN_FAIL;
+  type: string;
   payload: string;
 }
 
 interface SignUpRequestAction {
-  type: typeof SIGN_UP_REQUEST;
+  type: string;
   payload: User;
 }
 
 interface SignUpSuccessAction {
-  type: typeof SIGN_UP_SUCCESS;
+  type: string;
   payload: User;
 }
 
 interface SignUpFailAction {
-  type: typeof SIGN_UP_FAIL;
+  type: string;
   payload: string;
 }
 
+interface SignOutRequestAction {
+  type: string;
+}
+
 interface SignOutSuccessAction {
-  type: typeof SIGN_OUT_SUCCESS;
+  type: string;
 }
 
 interface SignOutFailAction {
-  type: typeof SIGN_OUT_FAIL;
+  type: string;
   payload: string;
 }
 
 interface SignUpWithGoogleRequestAction {
-  type: typeof SIGN_UP_WITH_GOOGLE_REQUEST;
+  type: string;
 }
 
 interface SignUpWithGoogleSuccessAction {
-  type: typeof SIGN_UP_WITH_GOOGLE_SUCCESS;
+  type: string;
   payload: User;
 }
 
 interface SignUpWithGoogleFailAction {
-  type: typeof SIGN_UP_WITH_GOOGLE_FAIL;
+  type: string;
   payload: string;
 }
 
@@ -80,6 +85,7 @@ export type AuthActionTypes =
   | SignUpRequestAction
   | SignUpSuccessAction
   | SignUpFailAction
+  | SignOutRequestAction
   | SignOutSuccessAction
   | SignOutFailAction
   | SignUpWithGoogleRequestAction
@@ -91,6 +97,7 @@ export const AUTH_ACTION_TYPES = {
   SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
   SIGN_OUT_FAIL: 'SIGN_OUT_FAIL',
+  SIGN_OUT_REQUEST: 'SIGN_OUT_REQUEST',
   SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
   SIGN_UP_FAIL: 'SIGN_UP_FAIL',
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',

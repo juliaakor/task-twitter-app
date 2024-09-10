@@ -16,7 +16,7 @@ import {
   signUpWithGoogleFail,
   signOutFail,
 } from '../auth/authActions';
-import { SIGN_IN_REQUEST, SIGN_UP_REQUEST, SIGN_OUT_SUCCESS, SIGN_UP_WITH_GOOGLE_REQUEST } from '../auth/types';
+import { SIGN_IN_REQUEST, SIGN_UP_REQUEST, SIGN_UP_WITH_GOOGLE_REQUEST, SIGN_OUT_REQUEST } from '../auth/types';
 
 const authRepository = new UserAuthRepository();
 
@@ -73,6 +73,6 @@ function* signUpWithGoogleSaga(): Generator {
 export function* authSaga() {
   yield takeLatest(SIGN_IN_REQUEST, signInSaga);
   yield takeLatest(SIGN_UP_REQUEST, signUpSaga);
-  yield takeLatest(SIGN_OUT_SUCCESS, signOutSaga);
+  yield takeLatest(SIGN_OUT_REQUEST, signOutSaga);
   yield takeLatest(SIGN_UP_WITH_GOOGLE_REQUEST, signUpWithGoogleSaga);
 }
