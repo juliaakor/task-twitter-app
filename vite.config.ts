@@ -13,6 +13,7 @@ const getDefaultConfig = (mode: string) =>
     define: {
       'process.env': {
         MODE: mode,
+        ...process.env,
       },
     },
     plugins: [
