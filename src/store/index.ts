@@ -8,17 +8,19 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
 import { ENV } from '@constants/env';
-import { testSaga } from '@store/saga';
+import { authReducer } from '@store/auth/authReducers';
+import { AuthActionTypes } from '@store/auth/types';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['theme'],
+  whitelist: ['theme', 'auth'],
 };
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   theme: themeReducer,
 });
 
@@ -42,7 +44,7 @@ const persistor = persistStore(store);
 
 sagaMiddleware.run(testSaga);
 
-export type AppDispatch = Dispatch<ThemeActionTypes>;
+export type AppDispatch = Dispatch<ThemeActionTypes | AuthActionTypes>;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
 
