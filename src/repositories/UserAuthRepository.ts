@@ -11,6 +11,7 @@ import {
 import { getDoc, setDoc, doc, Firestore, query, collection, where, getDocs } from 'firebase/firestore';
 
 import { auth, db } from '@/firebase';
+import { generateHashProvider } from '@lib/format';
 import { User, UserLogin, UserRegistration } from '@type/models';
 
 interface AuthRepository {
@@ -51,7 +52,9 @@ export class UserAuthRepository implements AuthRepository {
       throw new Error('Phone number is already in use');
     }
 
-    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+    const hashedPassword = await generateHashProvider(password);
+
+    const userCredential = await createUserWithEmailAndPassword(this.auth, email, hashedPassword);
     const userId = userCredential.user.uid;
     const token = await userCredential.user.getIdToken(true);
 
@@ -66,7 +69,7 @@ export class UserAuthRepository implements AuthRepository {
       following: [],
       id: userId,
       name,
-      password,
+      password: hashedPassword,
       phone,
       username: `@${name}_${birthday}`,
     } as User;
@@ -78,7 +81,8 @@ export class UserAuthRepository implements AuthRepository {
 
   async signInUser(data: UserLogin): Promise<User | undefined> {
     const { emailOrPhone, password } = data;
-    const userCredential = await signInWithEmailAndPassword(this.auth, emailOrPhone, password);
+    const hashedPassword = await generateHashProvider(password);
+    const userCredential = await signInWithEmailAndPassword(this.auth, emailOrPhone, hashedPassword);
     const userId = userCredential.user.uid;
     const token = await userCredential.user.getIdToken(true);
 
