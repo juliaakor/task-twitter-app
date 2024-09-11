@@ -7,7 +7,6 @@ Install dependencies with:
 
 ```bash
 yarn
-yarn prepare
 ```
 
 Run the development server with:
@@ -39,6 +38,11 @@ At the moment, the following scripts can be run within the project:
 - lint:fix - fix all eslint errors and warnings available for fixing;
 - prettier - check for all code style issues in files;
 - prettier:fix - fix all the code style issues in files;
-- prepare - to setup husky hooks;
+- test - run tests and watch files for changes to rerun tests related to changed files;
+- test:all - run tests and watch files for changes to rerun all tests when something changes;
+- test:ci - running tests in a ci environment;
+- test:coverage - delete the coverage folder and open a new coverage report after the tests have been executed;
+- cypress:open - opens the cypress Test Runner UI for interactive testing;
+- cypress:run - runs cypress tests headlessly in the terminal;
 
 **Note**: The following commands use the `.gitignore` file instead of their own ignore file: `lint`, `lint:fix`, `prettier`, `prettier:fix`.

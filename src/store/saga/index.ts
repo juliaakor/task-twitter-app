@@ -1,4 +1,7 @@
-export function* testSaga() {
-  // eslint-disable-next-line no-console
-  yield console.log('Test saga reached');
+import { all, fork } from 'redux-saga/effects';
+
+import { authSaga } from '@store/saga/authSaga';
+
+export function* generalSaga() {
+  yield all([fork(authSaga)]);
 }

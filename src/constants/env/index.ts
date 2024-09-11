@@ -1,0 +1,21 @@
+const {
+  FIREBASE_API_KEY,
+  FIREBASE_APP_ID,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_MEASUREMENT_ID,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  MODE,
+} = process.env;
+
+export const ENV = {
+  firebaseApiKey: FIREBASE_API_KEY,
+  firebaseAppId: FIREBASE_APP_ID,
+  firebaseAuthDomain: FIREBASE_AUTH_DOMAIN,
+  firebaseMeasurementId: FIREBASE_MEASUREMENT_ID,
+  firebaseMessagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  firebaseProjectId: FIREBASE_PROJECT_ID,
+  firebaseStorageBucket: FIREBASE_STORAGE_BUCKET,
+  mode: MODE,
+};

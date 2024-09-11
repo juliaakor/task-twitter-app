@@ -4,20 +4,24 @@ import { createStore, combineReducers, Reducer, Middleware, applyMiddleware, Dis
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
-import storage from 'redux-persist/es/storage';
+import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 
-import { testSaga } from '@store/saga';
+import { ENV } from '@constants/env';
+import { authReducer } from '@store/auth/authReducers';
+import { AuthActionTypes } from '@store/auth/types';
+import { generalSaga } from '@store/saga';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['theme'],
+  whitelist: ['theme', 'auth'],
 };
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   theme: themeReducer,
 });
 
@@ -32,16 +36,16 @@ const create = (reducers: Reducer<RootState & PersistPartial>, middlewares: Midd
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const immutableMiddleware = import.meta.env.MODE !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
+const immutableMiddleware = ENV.mode !== 'production' ? [reduxImmutableStateInvariant() as Middleware] : [];
 
 const middlewares: Middleware[] = [sagaMiddleware, ...immutableMiddleware];
 
 const store = create(persistedReducer, middlewares);
 const persistor = persistStore(store);
 
-sagaMiddleware.run(testSaga);
+sagaMiddleware.run(generalSaga);
 
-export type AppDispatch = Dispatch<ThemeActionTypes>;
+export type AppDispatch = Dispatch<ThemeActionTypes | AuthActionTypes>;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
 
