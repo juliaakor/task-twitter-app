@@ -2,22 +2,7 @@ import { Reducer } from 'redux';
 
 import { User } from '@type/models/User';
 
-import {
-  AuthActionTypes,
-  AuthState,
-  SIGN_IN_REQUEST,
-  SIGN_IN_SUCCESS,
-  SIGN_IN_FAIL,
-  SIGN_UP_REQUEST,
-  SIGN_UP_SUCCESS,
-  SIGN_UP_FAIL,
-  SIGN_OUT_SUCCESS,
-  SIGN_OUT_FAIL,
-  SIGN_UP_WITH_GOOGLE_REQUEST,
-  SIGN_UP_WITH_GOOGLE_SUCCESS,
-  SIGN_UP_WITH_GOOGLE_FAIL,
-  SIGN_OUT_REQUEST,
-} from './types';
+import { AuthActionTypes, AuthState, AUTH_ACTION_TYPES } from './types';
 
 const initialState: AuthState = {
   error: null,
@@ -26,38 +11,46 @@ const initialState: AuthState = {
   user: null,
 };
 
+interface PayloadString {
+  payload: string;
+}
+
+interface PayloadUser {
+  payload: User;
+}
+
 export const authReducer: Reducer<AuthState, AuthActionTypes> = (state = initialState, action): AuthState => {
   switch (action.type) {
-    case SIGN_IN_REQUEST:
-    case SIGN_UP_REQUEST:
-    case SIGN_UP_WITH_GOOGLE_REQUEST:
-    case SIGN_OUT_REQUEST:
+    case AUTH_ACTION_TYPES.SIGN_IN_REQUEST:
+    case AUTH_ACTION_TYPES.SIGN_UP_REQUEST:
+    case AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_REQUEST:
+    case AUTH_ACTION_TYPES.SIGN_OUT_REQUEST:
       return {
         ...state,
         error: null,
         isLoading: true,
       };
-    case SIGN_IN_SUCCESS:
-    case SIGN_UP_SUCCESS:
-    case SIGN_UP_WITH_GOOGLE_SUCCESS:
+    case AUTH_ACTION_TYPES.SIGN_IN_SUCCESS:
+    case AUTH_ACTION_TYPES.SIGN_UP_SUCCESS:
+    case AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_SUCCESS:
       return {
         ...state,
         error: null,
         isAuthenticated: true,
         isLoading: false,
-        user: (action as { payload: User }).payload,
+        user: (action as PayloadUser).payload,
       };
-    case SIGN_IN_FAIL:
-    case SIGN_UP_FAIL:
-    case SIGN_OUT_FAIL:
-    case SIGN_UP_WITH_GOOGLE_FAIL:
+    case AUTH_ACTION_TYPES.SIGN_IN_FAIL:
+    case AUTH_ACTION_TYPES.SIGN_UP_FAIL:
+    case AUTH_ACTION_TYPES.SIGN_OUT_FAIL:
+    case AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_FAIL:
       return {
         ...state,
         ...initialState,
-        error: (action as { payload: string }).payload,
+        error: (action as PayloadString).payload,
         isLoading: false,
       };
-    case SIGN_OUT_SUCCESS:
+    case AUTH_ACTION_TYPES.SIGN_OUT_SUCCESS:
       return {
         ...state,
         ...initialState,

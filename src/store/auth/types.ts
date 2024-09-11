@@ -7,75 +7,42 @@ export interface AuthState {
   user: User | UserLogin | null;
 }
 
-export const SIGN_IN_REQUEST: string = 'SIGN_IN_REQUEST';
-export const SIGN_IN_SUCCESS: string = 'SIGN_IN_SUCCESS';
-export const SIGN_IN_FAIL: string = 'SIGN_IN_FAIL';
-export const SIGN_UP_REQUEST: string = 'SIGN_UP_REQUEST';
-export const SIGN_UP_SUCCESS: string = 'SIGN_UP_SUCCESS';
-export const SIGN_UP_FAIL: string = 'SIGN_UP_FAIL';
-export const SIGN_OUT_REQUEST: string = 'SIGN_OUT_REQUEST';
-export const SIGN_OUT_SUCCESS: string = 'SIGN_OUT_SUCCESS';
-export const SIGN_OUT_FAIL: string = 'SIGN_OUT_FAIL';
-export const SIGN_UP_WITH_GOOGLE_REQUEST: string = 'SIGN_UP_WITH_GOOGLE_REQUEST';
-export const SIGN_UP_WITH_GOOGLE_SUCCESS: string = 'SIGN_UP_WITH_GOOGLE_SUCCESS';
-export const SIGN_UP_WITH_GOOGLE_FAIL: string = 'SIGN_UP_WITH_GOOGLE_FAIL';
+export const AUTH_ACTION_TYPES: Record<string, string> = {
+  SIGN_IN_FAIL: 'SIGN_IN_FAIL',
+  SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
+  SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
+  SIGN_OUT_FAIL: 'SIGN_OUT_FAIL',
+  SIGN_OUT_REQUEST: 'SIGN_OUT_REQUEST',
+  SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
+  SIGN_UP_FAIL: 'SIGN_UP_FAIL',
+  SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
+  SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
+  SIGN_UP_WITH_GOOGLE_FAIL: 'SIGN_UP_WITH_GOOGLE_FAIL',
+  SIGN_UP_WITH_GOOGLE_REQUEST: 'SIGN_UP_WITH_GOOGLE_REQUEST',
+  SIGN_UP_WITH_GOOGLE_SUCCESS: 'SIGN_UP_WITH_GOOGLE_SUCCESS',
+};
 
-interface SignInRequestAction {
-  type: string;
-  payload: UserLogin;
+interface BaseAction<T extends string, P = void> {
+  type: T;
+  payload?: P;
 }
 
-interface SignInSuccessAction {
-  type: string;
-  payload: User;
-}
+interface SignInRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_REQUEST, UserLogin> {}
+interface SignInSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_SUCCESS, User> {}
+interface SignInFailAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_FAIL, string> {}
 
-interface SignInFailAction {
-  type: string;
-  payload: string;
-}
+interface SignUpRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_REQUEST, User> {}
+interface SignUpSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_SUCCESS, User> {}
+interface SignUpFailAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_FAIL, string> {}
 
-interface SignUpRequestAction {
-  type: string;
-  payload: User;
-}
+interface SignOutRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_OUT_REQUEST> {}
+interface SignOutSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_OUT_SUCCESS> {}
+interface SignOutFailAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_OUT_FAIL, string> {}
 
-interface SignUpSuccessAction {
-  type: string;
-  payload: User;
-}
-
-interface SignUpFailAction {
-  type: string;
-  payload: string;
-}
-
-interface SignOutRequestAction {
-  type: string;
-}
-
-interface SignOutSuccessAction {
-  type: string;
-}
-
-interface SignOutFailAction {
-  type: string;
-  payload: string;
-}
-
-interface SignUpWithGoogleRequestAction {
-  type: string;
-}
-
-interface SignUpWithGoogleSuccessAction {
-  type: string;
-  payload: User;
-}
-
-interface SignUpWithGoogleFailAction {
-  type: string;
-  payload: string;
-}
+interface SignUpWithGoogleRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_REQUEST> {}
+interface SignUpWithGoogleSuccessAction
+  extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_SUCCESS, User> {}
+interface SignUpWithGoogleFailAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_FAIL, string> {}
 
 export type AuthActionTypes =
   | SignInRequestAction
@@ -90,18 +57,3 @@ export type AuthActionTypes =
   | SignUpWithGoogleRequestAction
   | SignUpWithGoogleSuccessAction
   | SignUpWithGoogleFailAction;
-
-export const AUTH_ACTION_TYPES = {
-  SIGN_IN_FAIL: 'SIGN_IN_FAIL',
-  SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
-  SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
-  SIGN_OUT_FAIL: 'SIGN_OUT_FAIL',
-  SIGN_OUT_REQUEST: 'SIGN_OUT_REQUEST',
-  SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
-  SIGN_UP_FAIL: 'SIGN_UP_FAIL',
-  SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
-  SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
-  SIGN_UP_WITH_GOOGLE_FAIL: 'SIGN_UP_WITH_GOOGLE_FAIL',
-  SIGN_UP_WITH_GOOGLE_REQUEST: 'SIGN_UP_WITH_GOOGLE_REQUEST',
-  SIGN_UP_WITH_GOOGLE_SUCCESS: 'SIGN_UP_WITH_GOOGLE_SUCCESS',
-} as const;

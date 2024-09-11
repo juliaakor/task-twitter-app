@@ -1,8 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { User, UserLogin, UserRegistration } from '@type/models';
-
-import { UserAuthRepository } from '../../repositories/UserAuthRepository';
+import { UserAuthRepository } from '@repositories/UserAuthRepository';
 import {
   signInSuccess,
   signInFail,
@@ -13,8 +11,9 @@ import {
   signUpWithGoogleSuccess,
   signUpWithGoogleFail,
   signOutFail,
-} from '../auth/authActions';
-import { SIGN_IN_REQUEST, SIGN_UP_REQUEST, SIGN_UP_WITH_GOOGLE_REQUEST, SIGN_OUT_REQUEST } from '../auth/types';
+} from '@store/auth/authActions';
+import { AUTH_ACTION_TYPES } from '@store/auth/types';
+import { User, UserLogin, UserRegistration } from '@type/models';
 
 const authRepository = new UserAuthRepository();
 
@@ -69,8 +68,8 @@ function* signUpWithGoogleSaga(): Generator {
 }
 
 export function* authSaga() {
-  yield takeLatest(SIGN_IN_REQUEST, signInSaga);
-  yield takeLatest(SIGN_UP_REQUEST, signUpSaga);
-  yield takeLatest(SIGN_OUT_REQUEST, signOutSaga);
-  yield takeLatest(SIGN_UP_WITH_GOOGLE_REQUEST, signUpWithGoogleSaga);
+  yield takeLatest(AUTH_ACTION_TYPES.SIGN_IN_REQUEST, signInSaga);
+  yield takeLatest(AUTH_ACTION_TYPES.SIGN_UP_REQUEST, signUpSaga);
+  yield takeLatest(AUTH_ACTION_TYPES.SIGN_OUT_REQUEST, signOutSaga);
+  yield takeLatest(AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_REQUEST, signUpWithGoogleSaga);
 }
