@@ -5,44 +5,47 @@ import {
   signInWithPopup,
   Auth,
   signOut as firebaseSignOut,
-  UserCredential as FirebaseUserCredential,
-  AdditionalUserInfo,
 } from 'firebase/auth';
 import { getDoc, setDoc, doc, Firestore, query, collection, where, getDocs } from 'firebase/firestore';
 
 import { auth, db } from '@/firebase';
-import { generateHashProvider } from '@lib/format';
+import { defaultUserInfo } from '@constants/auth';
+import { compareHashedProvider, generateHashProvider } from '@lib/format';
+import { AuthRepository, ExtendedUserCredential, GoogleUserProfile } from '@type/auth';
 import { User, UserLogin, UserRegistration } from '@type/models';
-
-interface AuthRepository {
-  signUpUser(data: UserRegistration): Promise<User | undefined>;
-  signInUser(data: UserLogin): Promise<User | undefined>;
-  signUpUserWithGoogle(): Promise<User | undefined>;
-}
-
-interface GoogleUserProfile {
-  email?: string;
-  given_name?: string;
-  family_name?: string;
-}
-
-interface ExtendedUserCredential extends FirebaseUserCredential {
-  additionalUserInfo?: AdditionalUserInfo;
-}
 
 export class UserAuthRepository implements AuthRepository {
   private auth: Auth = auth;
 
   private db: Firestore = db;
 
-  async signUpUser(data: UserRegistration): Promise<User | undefined> {
-    const { birthday, email, name, password, phone } = data;
-
+  private async getUserAuthSnapshot(email: string, phone: string) {
     const usersRef = collection(this.db, 'users');
+
     const emailQuery = query(usersRef, where('email', '==', email));
     const phoneQuery = query(usersRef, where('phone', '==', phone));
 
     const [emailSnapshot, phoneSnapshot] = await Promise.all([getDocs(emailQuery), getDocs(phoneQuery)]);
+
+    return { emailSnapshot, phoneSnapshot };
+  }
+
+  private async getUserByEmailOrPhone(emailOrPhone: string): Promise<User> {
+    const { emailSnapshot, phoneSnapshot } = await this.getUserAuthSnapshot(emailOrPhone, emailOrPhone);
+
+    if (!emailSnapshot.empty) {
+      return emailSnapshot.docs[0].data() as User;
+    }
+
+    if (!phoneSnapshot.empty) {
+      return phoneSnapshot.docs[0].data() as User;
+    }
+
+    throw new Error('User not found');
+  }
+
+  async validateSignUp(email: string, phone: string) {
+    const { emailSnapshot, phoneSnapshot } = await this.getUserAuthSnapshot(email, phone);
 
     if (!emailSnapshot.empty) {
       throw new Error('Email is already in use');
@@ -51,25 +54,40 @@ export class UserAuthRepository implements AuthRepository {
     if (!phoneSnapshot.empty) {
       throw new Error('Phone number is already in use');
     }
+  }
 
-    const hashedPassword = await generateHashProvider(password);
-
-    const userCredential = await createUserWithEmailAndPassword(this.auth, email, hashedPassword);
-    const userId = userCredential.user.uid;
+  async getTokenAndCredential(email: string, password: string, isSignUp: boolean) {
+    const userCredential = isSignUp
+      ? await createUserWithEmailAndPassword(this.auth, email, password)
+      : await signInWithEmailAndPassword(this.auth, email, password);
     const token = await userCredential.user.getIdToken(true);
+
+    return { token, userCredential };
+  }
+
+  static async validateUserPassword(password: string, hashedUserPassword: string) {
+    const passwordMatch = await compareHashedProvider(password, hashedUserPassword);
+    if (!passwordMatch) {
+      throw new Error('Invalid password');
+    }
+  }
+
+  async signUpUser(data: UserRegistration): Promise<User | undefined> {
+    const { birthday, email, name, password, phone } = data;
+
+    await this.validateSignUp(email, phone);
+
+    const { token, userCredential } = await this.getTokenAndCredential(email, password, true);
+    const userId = userCredential.user.uid;
 
     const userRef = doc(this.db, 'users', userId);
     const user = {
-      avatarUrl: '',
-      bio: '',
+      ...defaultUserInfo,
       birthday,
-      createdAt: new Date().toISOString(),
       email,
-      followers: [],
-      following: [],
       id: userId,
       name,
-      password: hashedPassword,
+      password: await generateHashProvider(password),
       phone,
       username: `@${name}_${birthday}`,
     } as User;
@@ -81,18 +99,67 @@ export class UserAuthRepository implements AuthRepository {
 
   async signInUser(data: UserLogin): Promise<User | undefined> {
     const { emailOrPhone, password } = data;
-    const hashedPassword = await generateHashProvider(password);
-    const userCredential = await signInWithEmailAndPassword(this.auth, emailOrPhone, hashedPassword);
-    const userId = userCredential.user.uid;
-    const token = await userCredential.user.getIdToken(true);
 
+    const {
+      email: userEmail = '',
+      password: userPassword = '',
+      ...userInfo
+    } = await this.getUserByEmailOrPhone(emailOrPhone);
+    const userId = userInfo.id;
+
+    await UserAuthRepository.validateUserPassword(password, userPassword);
+
+    const { token } = await this.getTokenAndCredential(userEmail, password, false);
+
+    return { ...userInfo, email: userEmail, id: userId, password: userPassword, token };
+  }
+
+  static getUserInfoFromGoogleCredential({
+    additionalUserInfo,
+    user: { displayName = 'Unknown', email = 'Unknown', photoURL },
+  }: ExtendedUserCredential) {
+    const profile = additionalUserInfo?.profile as GoogleUserProfile;
+
+    const name = profile?.given_name || displayName;
+    const surname = profile?.family_name || '';
+    const birthday = profile?.birthday || '';
+    const emailFromProfile = profile?.email || email;
+
+    return {
+      avatarUrl: photoURL || null,
+      birthday,
+      email: emailFromProfile,
+      name,
+      surname,
+    };
+  }
+
+  async checkAndCreateGoogleUser(userCredential: ExtendedUserCredential, userId: string) {
     const userRef = doc(this.db, 'users', userId);
     const userDoc = await getDoc(userRef);
-    if (!userDoc.exists()) return undefined;
+
+    if (!userDoc.exists()) {
+      const { avatarUrl, birthday, email, name, surname } =
+        UserAuthRepository.getUserInfoFromGoogleCredential(userCredential);
+
+      const newUser = {
+        ...defaultUserInfo,
+        avatarUrl,
+        birthday,
+        email,
+        id: userId,
+        name,
+        username: `@${name}_${surname}`,
+      } as User;
+
+      await setDoc(userRef, newUser);
+
+      return newUser;
+    }
 
     const userData = userDoc.data() as User;
 
-    return { ...userData, id: userId, token };
+    return userData;
   }
 
   async signUpUserWithGoogle(): Promise<User | undefined> {
@@ -102,41 +169,10 @@ export class UserAuthRepository implements AuthRepository {
     const userCredential = (await signInWithPopup(this.auth, provider)) as ExtendedUserCredential;
     const userId = userCredential.user.uid;
     const token = await userCredential.user.getIdToken(true);
-    const userRef = doc(this.db, 'users', userId);
-    const userDoc = await getDoc(userRef);
 
-    let userData: User | undefined;
-    if (!userDoc.exists()) {
-      const profile = userCredential.additionalUserInfo?.profile as GoogleUserProfile;
+    const userData = await this.checkAndCreateGoogleUser(userCredential, userId);
 
-      const email = profile?.email || userCredential.user.email || '';
-      const name = profile?.given_name || userCredential.user.displayName || '';
-      const surname = profile?.family_name || '';
-
-      await setDoc(userRef, {
-        bio: '',
-        createdAt: new Date().toISOString(),
-        email,
-        followers: [],
-        following: [],
-        id: userId,
-        imageUrl: userCredential.user.photoURL || null,
-        name,
-        username: `@${name}_${surname}`,
-      } as User);
-    }
-
-    const userDocAfter = await getDoc(userRef);
-    if (userDocAfter.exists()) {
-      const data = userDocAfter.data() as User;
-      userData = {
-        ...data,
-        id: userId,
-        token,
-      };
-    }
-
-    return userData;
+    return userData ? { ...userData, token } : undefined;
   }
 
   async signOut(): Promise<void> {
