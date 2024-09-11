@@ -8,6 +8,7 @@ export const fontSize = {
   large: '5.25rem',
   large2X: '1.875rem',
   large3X: '1.5rem',
+  large4X: '4.5rem',
   largeX: '2.625rem',
   medium: '1.375rem',
   medium2X: '1.125rem',

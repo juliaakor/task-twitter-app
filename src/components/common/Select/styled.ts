@@ -5,7 +5,7 @@ export const SelectItem = styled.div`
 `;
 
 export const SelectContainer = styled.div`
-  width: auto;
+  width: max-content;
   height: max-content;
 
   ${({ theme }) => `
@@ -17,10 +17,11 @@ export const SelectContainer = styled.div`
 
 export const SelectOptions = styled.select`
   border: none;
-  width: fit-content;
+  min-width: fit-content;
 
   ${({ theme }) => `
     padding: ${theme.spacing.medium2X} ${theme.spacing.mediumX};
+    width: ${theme.size.full};
   `}
 `;
 

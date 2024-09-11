@@ -22,6 +22,7 @@ export const size = {
   footerHeight: '3.4rem',
   full: '100%',
   half: '50%',
+  icon: '20px',
   none: 0,
   small: 1,
   small2X: 4,
