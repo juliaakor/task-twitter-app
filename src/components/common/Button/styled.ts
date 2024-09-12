@@ -45,6 +45,7 @@ export const ButtonItem = styled.button<ButtonItemProps>`
   border: none;
   text-align: center;
   cursor: pointer;
+  white-space: nowrap;
 
   ${({ theme }) => `
     width: ${theme.size.full};
@@ -57,6 +58,10 @@ export const ButtonItem = styled.button<ButtonItemProps>`
     &:hover {
       box-shadow: ${theme.spacing.none}px ${theme.spacing.none}px ${theme.size.small3X}px ${theme.spacing.none}px
         ${theme.colors.borderButton};
+    }
+
+    &:disabled {
+      background: ${theme.colors.bgButtonDisabled};
     }
   `}
 

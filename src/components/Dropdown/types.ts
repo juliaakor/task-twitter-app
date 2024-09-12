@@ -1,6 +1,6 @@
 export interface DropdownOption {
   label: string;
-  link: string;
+  link?: string;
   onClick?: () => void;
 }
 
