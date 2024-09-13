@@ -6,6 +6,7 @@ export const DropdownContainer = styled.div`
   overflow-y: auto;
 
   ${({ theme }) => `
+    margin-top: ${theme.spacing.small3X};
     background: ${theme.colors.bgPopup};
     border-radius: ${theme.radius.small};
     box-shadow: ${theme.spacing.none}px ${theme.spacing.none}px ${theme.size.small3X}px ${theme.spacing.none}px ${theme.colors.borderGrayButton};

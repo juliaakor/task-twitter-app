@@ -5,8 +5,9 @@ import defautProfile from '@assets/images/defaultProfile.png';
 import { Button, ImagePreviewList } from '@components/common';
 import { ButtonType } from '@components/common/Button/types';
 import { useAuth, useStorageUpload } from '@hooks/index';
+import { AvatarMedium } from '@styles/components';
 
-import { Avatar, ButtonContainer, InputArea, TextArea, TweetInputContainer, Input } from './styled';
+import { ButtonContainer, InputArea, TextArea, TweetInputContainer, Input } from './styled';
 import { TweetInputProps } from './types';
 
 export const TweetInput = ({ onTweet }: TweetInputProps) => {
@@ -46,7 +47,7 @@ export const TweetInput = ({ onTweet }: TweetInputProps) => {
 
   return (
     <TweetInputContainer>
-      <Avatar src={user.avatarUrl || defautProfile} alt="User Avatar" />
+      <AvatarMedium src={user.avatarUrl || defautProfile} alt="User Avatar" />
       <InputArea>
         <TextArea value={content} onChange={handleTextareaChange} placeholder="What's happening?" rows={2} />
 

@@ -9,15 +9,6 @@ export const TweetInputContainer = styled.div`
   `}
 `;
 
-export const Avatar = styled.img`
-  ${({ theme }) => `
-    width: ${theme.size.avatarMedium};
-    height: ${theme.size.avatarMedium};
-    border-radius: ${theme.radius.circle};
-    margin-right: ${theme.spacing.medium};
-  `}
-`;
-
 export const InputArea = styled.div`
   flex: 1;
   display: flex;
