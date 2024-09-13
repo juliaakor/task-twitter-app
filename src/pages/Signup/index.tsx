@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { Loader } from '@/components';
 import { defaultValuesSignupForm, emailSpecificSchema, phoneSpecificSchema, SignupFormData } from '@/lib/yup/signup';
 import TwitterLogo from '@assets/images/twitterLogo.png';
 import { Form, Input, Select, Button } from '@components/common';
@@ -53,7 +54,7 @@ const SignUpTypeField = ({ useEmail }: SignUpTypeFieldProps) => {
 export const SignupPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { error, isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
   const [useEmail, setUseEmail] = useState(true);
 
   const signupSchema = useEmail ? emailSpecificSchema : phoneSpecificSchema;
@@ -77,6 +78,8 @@ export const SignupPage = () => {
   const handleChangeSignUpType = () => {
     setUseEmail((prev) => !prev);
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <FormContainer>
