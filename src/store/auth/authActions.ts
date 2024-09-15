@@ -1,16 +1,7 @@
+import { createAction } from '@store/types';
 import { User, UserLogin, UserRegistration } from '@type/models';
 
 import { AUTH_ACTION_TYPES } from './types';
-
-export interface PayloadAction<T> {
-  type: string;
-  payload?: T;
-}
-
-export const createAction = <T>(type: string, payload?: T): PayloadAction<T> => ({
-  payload,
-  type,
-});
 
 export const signInRequest = (data: UserLogin) => createAction(AUTH_ACTION_TYPES.SIGN_IN_REQUEST, data);
 export const signInSuccess = (user: User) => createAction(AUTH_ACTION_TYPES.SIGN_IN_SUCCESS, user);
