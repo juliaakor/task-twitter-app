@@ -14,16 +14,16 @@ export const router = [
     path: ROUTES.NOT_FOUND,
   },
   {
+    Component: ProfilePage,
+    path: ROUTES.PROFILE,
+  },
+  {
     Component: FeedPage,
     path: ROUTES.FEED,
   },
   {
     Component: FeedPage,
     path: ROUTES.HOME,
-  },
-  {
-    Component: ProfilePage,
-    path: ROUTES.PROFILE,
   },
   {
     Component: ErrorPage,

@@ -34,3 +34,19 @@ export const LinkItem = styled.span<LinkItemProps>`
     ${$positions}
   `}
 `;
+
+export const AvatarMedium = styled.img`
+  ${({ theme }) => `
+    width: ${theme.size.avatarMedium};
+    height: ${theme.size.avatarMedium};
+    border-radius: ${theme.radius.circle};
+    margin-right: ${theme.spacing.medium};
+  `}
+`;
+
+export const Username = styled.span`
+  ${({ theme }) => `
+    color: ${theme.colors.textInfo};
+    font-size: ${theme.fontSize.smallX};
+  `}
+`;

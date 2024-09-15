@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Loader } from '@/components';
 import TwitterLogo from '@assets/images/twitterLogo.png';
 import { Button, Form, Input } from '@components/common';
 import { ButtonType } from '@components/common/Button/types';
@@ -15,7 +16,7 @@ import { FormContainer, Image, Heading } from './styled';
 export const SigninPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, isAuthenticated } = useAppSelector(selectAuthState);
+  const { error, isAuthenticated, isLoading } = useAppSelector(selectAuthState);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,6 +27,8 @@ export const SigninPage = () => {
   const onSubmit = (data: DefaultValuesSigninForm) => {
     dispatch(signInRequest(data));
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <div>

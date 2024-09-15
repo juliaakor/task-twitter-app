@@ -19,10 +19,14 @@ export const spacing = {
 };
 
 export const size = {
+  avatarMedium: '50px',
   footerHeight: '3.4rem',
   full: '100%',
+  fullvh: '100vh',
+  fullvw: '100vw',
   half: '50%',
   icon: '20px',
+  imagePreviewSmall: '80px',
   none: 0,
   small: 1,
   small2X: 4,
