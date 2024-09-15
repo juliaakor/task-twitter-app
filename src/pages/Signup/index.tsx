@@ -54,7 +54,7 @@ const SignUpTypeField = ({ useEmail }: SignUpTypeFieldProps) => {
 export const SignupPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, signUpError } = useAppSelector((state) => state.auth);
   const [useEmail, setUseEmail] = useState(true);
 
   const signupSchema = useEmail ? emailSpecificSchema : phoneSpecificSchema;
@@ -86,7 +86,7 @@ export const SignupPage = () => {
       <Image src={TwitterLogo} alt="Twitter Logo" />
       <Heading>Create an account</Heading>
 
-      <ErrorMessage $isVisible={!!error}>{error}</ErrorMessage>
+      <ErrorMessage $isVisible={!!signUpError}>{signUpError}</ErrorMessage>
       <Form defaultValues={defaultValuesSignupForm} onSubmit={onSubmit} yupSchema={signupSchema}>
         <Input type="text" label="Name" name="name" placeholder="Name" />
         <SignUpTypeField useEmail={useEmail} />

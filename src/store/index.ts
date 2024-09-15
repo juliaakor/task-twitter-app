@@ -13,6 +13,10 @@ import { AuthActionTypes } from '@store/auth/types';
 import { generalSaga } from '@store/saga';
 import { themeReducer } from '@store/theme/themeReducers';
 import { ThemeActionTypes } from '@store/theme/types';
+import { tweetReducer } from '@store/tweets/tweetsReducers';
+import { TweetActionTypes } from '@store/tweets/types';
+import { UserActionTypes } from '@store/user/types';
+import { userReducer } from '@store/user/userReducers';
 
 const persistConfig = {
   key: 'root',
@@ -23,6 +27,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   theme: themeReducer,
+  tweets: tweetReducer,
+  user: userReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -45,7 +51,7 @@ const persistor = persistStore(store);
 
 sagaMiddleware.run(generalSaga);
 
-export type AppDispatch = Dispatch<ThemeActionTypes | AuthActionTypes>;
+export type AppDispatch = Dispatch<ThemeActionTypes | AuthActionTypes | TweetActionTypes | UserActionTypes>;
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
 

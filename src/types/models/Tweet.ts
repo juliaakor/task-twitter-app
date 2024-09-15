@@ -1,5 +1,7 @@
 import { DocumentReference } from 'firebase/firestore';
 
+import { User } from './User';
+
 export interface Tweet {
   id: string;
   author: DocumentReference;
@@ -9,3 +11,7 @@ export interface Tweet {
   isDeleted: boolean;
   images?: string[];
 }
+
+export type TweetWithAuthor = Omit<Tweet, 'author'> & {
+  author: Partial<User>;
+};

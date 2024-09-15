@@ -1,10 +1,14 @@
 import { User, UserLogin } from '@type/models';
 
+import { BaseAction } from '../types';
+
 export interface AuthState {
-  error: string | null;
+  signOutError: string | null;
+  signInError: string | null;
+  signUpError: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: User | UserLogin | null;
+  user: User | null;
 }
 
 export const AUTH_ACTION_TYPES: Record<string, string> = {
@@ -21,11 +25,6 @@ export const AUTH_ACTION_TYPES: Record<string, string> = {
   SIGN_UP_WITH_GOOGLE_REQUEST: 'SIGN_UP_WITH_GOOGLE_REQUEST',
   SIGN_UP_WITH_GOOGLE_SUCCESS: 'SIGN_UP_WITH_GOOGLE_SUCCESS',
 };
-
-interface BaseAction<T extends string, P = void> {
-  type: T;
-  payload?: P;
-}
 
 interface SignInRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_REQUEST, UserLogin> {}
 interface SignInSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_SUCCESS, User> {}
