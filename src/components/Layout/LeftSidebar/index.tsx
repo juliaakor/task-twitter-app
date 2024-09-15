@@ -16,10 +16,10 @@ export const LeftSidebar = () => {
       <Wrapper>
         <UserWrapper>
           <UserPreview
-            id={user.id}
-            avatarUrl={user.avatarUrl || defautProfile}
-            name={user.name}
-            username={user.username}
+            id={user?.id || ''}
+            avatarUrl={user?.avatarUrl || defautProfile}
+            name={user?.name || ''}
+            username={user?.username || ''}
           />
         </UserWrapper>
         <Button onClick={handleSignOut} label="Log out" name="Log out" styleType={ButtonType.Disabled} />
