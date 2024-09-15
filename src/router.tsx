@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 
+import { LayoutWrapper } from '@components/LayoutWrapper';
 import { ROUTES } from '@constants/routes';
 import { ErrorPage, NotFoundPage } from '@pages/index';
 
@@ -14,15 +15,15 @@ export const router = [
     path: ROUTES.NOT_FOUND,
   },
   {
-    Component: ProfilePage,
+    Component: () => <LayoutWrapper Component={ProfilePage} />,
     path: ROUTES.PROFILE,
   },
   {
-    Component: FeedPage,
+    Component: () => <LayoutWrapper Component={FeedPage} />,
     path: ROUTES.FEED,
   },
   {
-    Component: FeedPage,
+    Component: () => <LayoutWrapper Component={FeedPage} />,
     path: ROUTES.HOME,
   },
   {
