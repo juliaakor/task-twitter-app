@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Loader } from '@/components';
 import TwitterLogo from '@assets/images/twitterLogo.png';
 import { Button, Form, Input } from '@components/common';
 import { ButtonType } from '@components/common/Button/types';
@@ -15,7 +16,7 @@ import { FormContainer, Image, Heading } from './styled';
 export const SigninPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, isAuthenticated } = useAppSelector(selectAuthState);
+  const { isAuthenticated, isLoading, signInError } = useAppSelector(selectAuthState);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -27,12 +28,14 @@ export const SigninPage = () => {
     dispatch(signInRequest(data));
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <div>
       <FormContainer>
         <Image src={TwitterLogo} alt="Twitter Logo" />
         <Heading>Log in to Twitter</Heading>
-        <ErrorMessage $isVisible={!!error}>{error}</ErrorMessage>
+        <ErrorMessage $isVisible={!!signInError}>{signInError}</ErrorMessage>
         <Form defaultValues={defaultValuesSigninForm} yupSchema={loginSchema} onSubmit={onSubmit}>
           <Input type="text" label="Email or Phone" name="emailOrPhone" placeholder="Phone number, email address" />
           <Input type="password" label="Password" name="password" placeholder="Password" />

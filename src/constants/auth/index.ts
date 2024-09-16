@@ -4,4 +4,5 @@ export const defaultUserInfo = {
   createdAt: new Date().toISOString(),
   followers: [],
   following: [],
+  headerPicUrl: '',
 };

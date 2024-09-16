@@ -1,3 +1,13 @@
+import { BookmarksIcon } from '@assets/icons/bookmarksIcon';
+import { ExploreIcon } from '@assets/icons/exploreIcon';
+import { HomeIcon } from '@assets/icons/homeIcon';
+import { ListsIcons } from '@assets/icons/listsIcon';
+import { MessagesIcon } from '@assets/icons/messagesIcon';
+import { MoreIcon } from '@assets/icons/moreIcon';
+import { NotificationIcon } from '@assets/icons/notificationIcon';
+import { ProfileIcon } from '@assets/icons/profileIcon';
+import { IconProps } from '@assets/types';
+
 export const ROUTES = {
   ERROR_OCCURRED: '/error-occurred',
   FEED: '/feed',
@@ -8,15 +18,21 @@ export const ROUTES = {
   SIGN_UP: '/signup',
 };
 
-export const NAV_ROUTES = [
-  ['Home', ROUTES.HOME],
-  ['Explore', ROUTES.NOT_FOUND],
-  ['Notifications', ROUTES.NOT_FOUND],
-  ['Messages', ROUTES.NOT_FOUND],
-  ['Bookmarks', ROUTES.NOT_FOUND],
-  ['Lists', ROUTES.NOT_FOUND],
-  ['Profile', ROUTES.PROFILE],
-  ['More', ROUTES.FEED],
+export interface NavItem {
+  Icon: React.ComponentType<IconProps>;
+  label: string;
+  link: string;
+}
+
+export const NAV_ROUTES: NavItem[] = [
+  { Icon: HomeIcon, label: 'Home', link: ROUTES.HOME },
+  { Icon: ExploreIcon, label: 'Explore', link: ROUTES.FEED },
+  { Icon: NotificationIcon, label: 'Notifications', link: ROUTES.NOT_FOUND },
+  { Icon: MessagesIcon, label: 'Messages', link: ROUTES.NOT_FOUND },
+  { Icon: BookmarksIcon, label: 'Bookmarks', link: ROUTES.NOT_FOUND },
+  { Icon: ListsIcons, label: 'Lists', link: ROUTES.NOT_FOUND },
+  { Icon: ProfileIcon, label: 'Profile', link: ROUTES.PROFILE },
+  { Icon: MoreIcon, label: 'More', link: ROUTES.NOT_FOUND },
 ];
 
 export const FOOTER_ROUTES = [

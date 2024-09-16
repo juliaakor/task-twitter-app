@@ -9,8 +9,8 @@ export const Dropdown = ({ isOpen, options }: DropdownProps) => {
   return (
     <DropdownContainer>
       <DropdownOptions>
-        {options.map(({ label, link }) => (
-          <Link to={link} key={label}>
+        {options.map(({ label, link, onClick }) => (
+          <Link to={link || ''} key={label} onClick={onClick}>
             <DropdownOption>{label}</DropdownOption>
           </Link>
         ))}

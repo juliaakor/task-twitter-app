@@ -2,11 +2,12 @@ export interface User {
   id: string;
   username: string;
   avatarUrl?: string;
+  headerPicUrl?: string;
   bio?: string;
   createdAt: string;
   updatedAt?: string;
-  followers?: User[];
-  following: User[];
+  followers: string[];
+  following: string[];
   name: string;
   token?: string;
   email?: string;

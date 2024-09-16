@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { Loader } from '@/components';
 import { defaultValuesSignupForm, emailSpecificSchema, phoneSpecificSchema, SignupFormData } from '@/lib/yup/signup';
 import TwitterLogo from '@assets/images/twitterLogo.png';
 import { Form, Input, Select, Button } from '@components/common';
@@ -53,7 +54,7 @@ const SignUpTypeField = ({ useEmail }: SignUpTypeFieldProps) => {
 export const SignupPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, signUpError } = useAppSelector((state) => state.auth);
   const [useEmail, setUseEmail] = useState(true);
 
   const signupSchema = useEmail ? emailSpecificSchema : phoneSpecificSchema;
@@ -78,12 +79,14 @@ export const SignupPage = () => {
     setUseEmail((prev) => !prev);
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <FormContainer>
       <Image src={TwitterLogo} alt="Twitter Logo" />
       <Heading>Create an account</Heading>
 
-      <ErrorMessage $isVisible={!!error}>{error}</ErrorMessage>
+      <ErrorMessage $isVisible={!!signUpError}>{signUpError}</ErrorMessage>
       <Form defaultValues={defaultValuesSignupForm} onSubmit={onSubmit} yupSchema={signupSchema}>
         <Input type="text" label="Name" name="name" placeholder="Name" />
         <SignUpTypeField useEmail={useEmail} />
