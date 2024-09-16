@@ -47,12 +47,16 @@ export class UserAuthRepository implements AuthRepository {
   async validateSignUp(email: string, phone: string) {
     const { emailSnapshot, phoneSnapshot } = await this.getUserAuthSnapshot(email, phone);
 
-    if (!emailSnapshot.empty) {
-      throw new Error('Email is already in use');
+    if (email) {
+      if (!emailSnapshot.empty) {
+        throw new Error('Email is already in use');
+      }
     }
 
-    if (!phoneSnapshot.empty) {
-      throw new Error('Phone number is already in use');
+    if (phone) {
+      if (!phoneSnapshot.empty) {
+        throw new Error('Phone number is already in use');
+      }
     }
   }
 
@@ -77,41 +81,74 @@ export class UserAuthRepository implements AuthRepository {
 
     await this.validateSignUp(email, phone);
 
-    const { token, userCredential } = await this.getTokenAndCredential(email, password, true);
-    const userId = userCredential.user.uid;
+    let userCredential;
+    let token;
+    let userId;
 
-    const userRef = doc(this.db, 'users', userId);
+    if (email) {
+      ({ token, userCredential } = await this.getTokenAndCredential(email, password, true));
+      userId = userCredential.user.uid;
+    } else if (phone) {
+      const usersRef = collection(this.db, 'users');
+      const newUserRef = doc(usersRef);
+      userId = newUserRef.id;
+      token = null;
+    }
+
+    const usersRef = collection(this.db, 'users');
+    const userRef = doc(usersRef, userId);
     const user = {
       ...defaultUserInfo,
       birthday,
-      email,
+      email: email || '',
       id: userId,
       name,
       password: await generateHashProvider(password),
-      phone,
-      username: `@${name}_${birthday}`,
+      phone: phone || '',
+      username: `@${name.replace(' ', '_')}${userId?.slice(5)}`,
     } as User;
 
     await setDoc(userRef, user);
 
-    return { ...user, token };
+    return { ...user, token: token || '' };
   }
 
   async signInUser(data: UserLogin): Promise<User | undefined> {
     const { emailOrPhone, password } = data;
 
-    const {
-      email: userEmail = '',
-      password: userPassword = '',
-      ...userInfo
-    } = await this.getUserByEmailOrPhone(emailOrPhone);
-    const userId = userInfo.id;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 
-    await UserAuthRepository.validateUserPassword(password, userPassword);
+    let userEmail = '';
+    let userPassword = '';
+    let userInfo: Omit<User, 'email' | 'password'>;
+    let token: string | null = '';
 
-    const { token } = await this.getTokenAndCredential(userEmail, password, false);
+    if (isEmail) {
+      const user = await this.getUserByEmailOrPhone(emailOrPhone);
+      userEmail = user.email ?? '';
+      userPassword = user.password ?? '';
+      userInfo = { ...user };
 
-    return { ...userInfo, email: userEmail, id: userId, password: userPassword, token };
+      await UserAuthRepository.validateUserPassword(password, userPassword);
+
+      const { token: firebaseToken } = await this.getTokenAndCredential(userEmail, password, false);
+      token = firebaseToken ?? '';
+    } else {
+      const user = await this.getUserByEmailOrPhone(emailOrPhone);
+      userPassword = user.password ?? '';
+      userInfo = { ...user };
+
+      await UserAuthRepository.validateUserPassword(password, userPassword);
+
+      token = '';
+    }
+
+    const userId = userInfo.id ?? '';
+    if (!userId) {
+      throw new Error('User ID is undefined');
+    }
+
+    return { ...userInfo, email: userEmail, id: userId, token };
   }
 
   static getUserInfoFromGoogleCredential({
@@ -149,7 +186,7 @@ export class UserAuthRepository implements AuthRepository {
         email,
         id: userId,
         name,
-        username: `@${name}_${surname}`,
+        username: `@${surname}${userId.slice(5)}`,
       } as User;
 
       await setDoc(userRef, newUser);
