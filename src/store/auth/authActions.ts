@@ -3,6 +3,8 @@ import { User, UserLogin, UserRegistration } from '@type/models';
 
 import { AUTH_ACTION_TYPES } from './types';
 
+export const updateUserSuccess = (user: User) => createAction(AUTH_ACTION_TYPES.UPDATE_USER_SUCCESS, user);
+
 export const signInRequest = (data: UserLogin) => createAction(AUTH_ACTION_TYPES.SIGN_IN_REQUEST, data);
 export const signInSuccess = (user: User) => createAction(AUTH_ACTION_TYPES.SIGN_IN_SUCCESS, user);
 export const signInFail = (error: string) => createAction(AUTH_ACTION_TYPES.SIGN_IN_FAIL, error);

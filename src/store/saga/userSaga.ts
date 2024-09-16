@@ -2,6 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { passwordResetSuccess } from '@lib/toasts';
 import { UserRepository } from '@repositories/UserRepository';
+import { updateUserSuccess } from '@store/auth/authActions';
 import { USER_ACTION_TYPES } from '@store/user/types';
 import {
   editUserRequest,
@@ -29,6 +30,7 @@ function* editUserSaga(action: ReturnType<typeof editUserRequest>): Generator {
 
     const user = yield call([userRepository, 'findOne'], id);
     yield put(editUserSuccess(user as User));
+    yield put(updateUserSuccess(user as User));
   } catch (error) {
     yield put(editUserFail('Failed to edit user'));
   }

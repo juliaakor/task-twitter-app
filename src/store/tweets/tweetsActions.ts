@@ -30,6 +30,12 @@ export const searchTweetsByUserSuccess = (tweets: Tweet[]) =>
 export const searchTweetsByUserFail = (error: string) =>
   createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_FAIL, error);
 
+export const searchTweetByIdRequest = (tweetId: string) =>
+  createAction(TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_REQUEST, tweetId);
+export const searchTweetByIdSuccess = (tweets: TweetWithAuthor) =>
+  createAction(TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_SUCCESS, tweets);
+export const searchTweetByIdFail = (error: string) => createAction(TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_FAIL, error);
+
 export const searchTweetsRequest = (query: string, userId: string) =>
   createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, { query, userId });
 export const searchTweetsSuccess = (tweets: TweetWithAuthor[]) =>

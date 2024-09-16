@@ -8,6 +8,7 @@ export interface TweetsState {
   isLoading: boolean;
   searchTweets: TweetWithAuthor[];
   feed: TweetWithAuthor[];
+  activeTweet: TweetWithAuthor | null;
 }
 
 export const TWEET_ACTION_TYPES: Record<string, string> = {
@@ -22,6 +23,10 @@ export const TWEET_ACTION_TYPES: Record<string, string> = {
   FETCH_ALL_TWEETS_FAIL: 'FETCH_ALL_TWEETS_FAIL',
   FETCH_ALL_TWEETS_REQUEST: 'FETCH_ALL_TWEETS_REQUEST',
   FETCH_ALL_TWEETS_SUCCESS: 'FETCH_ALL_TWEETS_SUCCESS',
+
+  SEARCH_TWEET_BY_ID_FAIL: 'SEARCH_TWEET_BY_ID_FAIL',
+  SEARCH_TWEET_BY_ID_REQUEST: 'SEARCH_TWEET_BY_ID_REQUEST',
+  SEARCH_TWEET_BY_ID_SUCCESS: 'SEARCH_TWEET_BY_ID_SUCCESS',
 
   SEARCH_TWEETS_BY_USER_FAIL: 'SEARCH_TWEETS_BY_USER_FAIL',
   SEARCH_TWEETS_BY_USER_REQUEST: 'SEARCH_TWEETS_BY_USER_REQUEST',
@@ -48,10 +53,18 @@ interface FetchAllTweetsFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.
 interface FetchAllTweetsRequestAction extends BaseAction<typeof TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_REQUEST> {}
 interface FetchAllTweetsSuccessAction extends BaseAction<typeof TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_SUCCESS, Tweet[]> {}
 
-interface SearchTweetsByUserFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_FAIL, string> {}
-interface SearchTweetsByUserRequestAction extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, string> {}
+interface SearchTweetsByUserFailAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_FAIL, string> {}
+interface SearchTweetsByUserRequestAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_REQUEST, string> {}
 interface SearchTweetsByUserSuccessAction
-  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_SUCCESS, Tweet[]> {}
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_SUCCESS, Tweet[]> {}
+
+interface SearchTweetByIdFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_FAIL, string> {}
+interface SearchTweetByIdRequestAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_REQUEST, string> {}
+interface SearchTweetByIdSuccessAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_SUCCESS, TweetWithAuthor> {}
 
 interface ToggleLikeFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_FAIL, string> {}
 interface ToggleLikeRequestAction
@@ -82,4 +95,7 @@ export type TweetActionTypes =
   | SearchTweetsByUserSuccessAction
   | SearchTweetsRequestAction
   | SearchTweetsSuccessAction
-  | SearchTweetsFailAction;
+  | SearchTweetsFailAction
+  | SearchTweetByIdFailAction
+  | SearchTweetByIdRequestAction
+  | SearchTweetByIdSuccessAction;
