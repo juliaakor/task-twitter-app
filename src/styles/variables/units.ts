@@ -19,14 +19,16 @@ export const spacing = {
 };
 
 export const size = {
-  avatarMedium: '50px',
+  avatarLarge: '5.625rem',
+  avatarMedium: '3.125rem',
   footerHeight: '3.4rem',
   full: '100%',
   fullvh: '100vh',
   fullvw: '100vw',
   half: '50%',
   icon: '20px',
-  imagePreviewSmall: '80px',
+  imagePreviewMedium: '7.5rem',
+  imagePreviewSmall: '5rem',
   none: 0,
   small: 1,
   small2X: 4,
@@ -37,6 +39,7 @@ export const size = {
 export const radius = {
   button: '76px',
   circle: '50%',
+  medium: '8px',
   small: '6px',
   switch: '15px',
 };

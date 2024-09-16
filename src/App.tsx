@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Loader } from './components';
@@ -13,6 +14,7 @@ export const App = () => {
             <Route Component={Component} key={path} path={path} />
           ))}
         </Routes>
+        <Toaster />
       </Suspense>
     </BrowserRouter>
   );

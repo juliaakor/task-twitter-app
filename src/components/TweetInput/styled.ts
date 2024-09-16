@@ -6,6 +6,7 @@ export const TweetInputContainer = styled.div`
   ${({ theme }) => `
     padding: ${theme.spacing.medium};
     border: ${theme.size.small}px solid ${theme.colors.borderGrayButton};
+    background: ${theme.colors.bgPrimary};
   `}
 `;
 

@@ -26,13 +26,13 @@ export interface NavItem {
 
 export const NAV_ROUTES: NavItem[] = [
   { Icon: HomeIcon, label: 'Home', link: ROUTES.HOME },
-  { Icon: ExploreIcon, label: 'Explore', link: ROUTES.HOME },
-  { Icon: NotificationIcon, label: 'Notifications', link: ROUTES.HOME },
-  { Icon: MessagesIcon, label: 'Messages', link: ROUTES.HOME },
-  { Icon: BookmarksIcon, label: 'Bookmarks', link: ROUTES.HOME },
-  { Icon: ListsIcons, label: 'Lists', link: ROUTES.HOME },
+  { Icon: ExploreIcon, label: 'Explore', link: ROUTES.FEED },
+  { Icon: NotificationIcon, label: 'Notifications', link: ROUTES.NOT_FOUND },
+  { Icon: MessagesIcon, label: 'Messages', link: ROUTES.NOT_FOUND },
+  { Icon: BookmarksIcon, label: 'Bookmarks', link: ROUTES.NOT_FOUND },
+  { Icon: ListsIcons, label: 'Lists', link: ROUTES.NOT_FOUND },
   { Icon: ProfileIcon, label: 'Profile', link: ROUTES.PROFILE },
-  { Icon: MoreIcon, label: 'More', link: ROUTES.FEED },
+  { Icon: MoreIcon, label: 'More', link: ROUTES.NOT_FOUND },
 ];
 
 export const FOOTER_ROUTES = [

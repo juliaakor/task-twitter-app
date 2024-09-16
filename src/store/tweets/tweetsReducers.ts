@@ -20,6 +20,7 @@ export const tweetReducer: Reducer<TweetsState, TweetActionTypes> = (state = ini
     case TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST:
     case TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_REQUEST:
     case TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_REQUEST:
+    case TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST:
       return {
         ...state,
         error: null,
@@ -57,10 +58,17 @@ export const tweetReducer: Reducer<TweetsState, TweetActionTypes> = (state = ini
           tweet.id === (action.payload as Tweet).id ? { ...tweet, likes: (action.payload as Tweet).likes } : tweet
         ),
       };
+    case TWEET_ACTION_TYPES.SEARCH_TWEETS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        searchTweets: action.payload as TweetWithAuthor[],
+      };
     case TWEET_ACTION_TYPES.ADD_TWEET_FAIL:
     case TWEET_ACTION_TYPES.DELETE_TWEET_FAIL:
     case TWEET_ACTION_TYPES.TOGGLE_LIKE_FAIL:
     case TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_FAIL:
+    case TWEET_ACTION_TYPES.SEARCH_TWEETS_FAIL:
       return {
         ...state,
         error: action.payload as string,

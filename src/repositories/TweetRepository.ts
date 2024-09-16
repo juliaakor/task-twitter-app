@@ -125,4 +125,41 @@ export class TweetRepository implements BaseRepository<Tweet> {
 
     await setDoc(tweetRef, { likes }, { merge: true });
   }
+
+  async searchTweetsByContentAndUser(queryStr: string, userId: string): Promise<TweetWithAuthor[]> {
+    const userRef = doc(this.db, 'users', userId);
+
+    const tweetsQuery = query(
+      collection(this.db, 'tweets'),
+      where('author', '==', userRef),
+      where('content', '>=', queryStr),
+      where('content', '<=', `${queryStr}\uf8ff`),
+      orderBy('createdAt', 'desc')
+    );
+
+    const querySnapshot = await getDocs(tweetsQuery);
+
+    const tweets = await Promise.all(
+      querySnapshot.docs.map(async (docSnapshot) => {
+        const tweet = { id: docSnapshot.id, ...docSnapshot.data() } as Tweet;
+
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.exists() ? userSnap.data() : null;
+
+        return {
+          ...tweet,
+          author: userData
+            ? {
+                avatarUrl: userData.avatarUrl,
+                id: userData.id,
+                name: userData.name,
+                username: userData.username,
+              }
+            : {},
+        } as TweetWithAuthor;
+      })
+    );
+
+    return tweets;
+  }
 }

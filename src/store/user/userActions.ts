@@ -15,3 +15,8 @@ export const fetchUserByIdFail = (error: string) => createAction(USER_ACTION_TYP
 export const searchUsersRequest = (query: string) => createAction(USER_ACTION_TYPES.SEARCH_USERS_REQUEST, query);
 export const searchUsersSuccess = (users: User[]) => createAction(USER_ACTION_TYPES.SEARCH_USERS_SUCCESS, users);
 export const searchUsersFail = (error: string) => createAction(USER_ACTION_TYPES.SEARCH_USERS_FAIL, error);
+
+export const updatePasswordRequest = (id: string, currentPassword: string, newPassword: string) =>
+  createAction(USER_ACTION_TYPES.UPDATE_PASSWORD_REQUEST, { currentPassword, id, newPassword });
+export const updatePasswordSuccess = () => createAction(USER_ACTION_TYPES.UPDATE_PASSWORD_SUCCESS, undefined);
+export const updatePasswordFail = (error: string) => createAction(USER_ACTION_TYPES.UPDATE_PASSWORD_FAIL, error);

@@ -16,6 +16,9 @@ import {
   searchTweetsByUserSuccess,
   fetchAllTweetsSuccess,
   fetchAllTweetsFail,
+  searchTweetsSuccess,
+  searchTweetsFail,
+  searchTweetsRequest,
 } from '@store/tweets/tweetsActions';
 import { TWEET_ACTION_TYPES } from '@store/tweets/types';
 import { Tweet } from '@type/models';
@@ -80,10 +83,22 @@ function* fetchAllTweetsSaga(): Generator {
   }
 }
 
+function* searchTweetsSaga(action: ReturnType<typeof searchTweetsRequest>) {
+  try {
+    const { query, userId } = action.payload as { query: string; userId: string };
+    const tweetRepository = new TweetRepository();
+    const tweets: TweetWithAuthor[] = yield call([tweetRepository, 'searchTweetsByContentAndUser'], query, userId);
+    yield put(searchTweetsSuccess(tweets as TweetWithAuthor[]));
+  } catch (error) {
+    yield put(searchTweetsFail('Error occured while searching tweets'));
+  }
+}
+
 export function* tweetSaga() {
   yield takeLatest(TWEET_ACTION_TYPES.ADD_TWEET_REQUEST, addTweetSaga);
   yield takeLatest(TWEET_ACTION_TYPES.DELETE_TWEET_REQUEST, deleteTweetSaga);
   yield takeLatest(TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST, toggleLikeSaga);
   yield takeLatest(TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_REQUEST, fetchTweetsByUserSaga);
   yield takeLatest(TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_REQUEST, fetchAllTweetsSaga);
+  yield takeLatest(TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, searchTweetsSaga);
 }
