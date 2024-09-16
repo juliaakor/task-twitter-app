@@ -76,6 +76,18 @@ export const Content = styled.div`
   `}
 `;
 
+export const Name = styled.span`
+  text-align: left;
+
+  ${({ theme }) => `
+    margin-right: ${theme.spacing.smallX};
+    font-family: ${theme.fontFamily.secondary};
+    font-size: ${theme.fontSize.medium2X};
+    font-weight: ${theme.fontWeight.medium};
+    line-height: ${theme.lineHeight.mediumX};
+  `}
+`;
+
 export const Timestamp = styled.span`
   ${({ theme }) => `
     color: ${theme.colors.textInfo};

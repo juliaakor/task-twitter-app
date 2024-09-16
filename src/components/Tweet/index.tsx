@@ -19,13 +19,24 @@ import {
   TweetText,
   LikeContainer,
   ModalImage,
+  Name,
 } from './styled';
 import { TweetProps } from './types';
 import { useTweets } from '../../hooks/useTweets';
 import { ConfirmationModal } from '../ConfirmationModal';
 import { Modal } from '../Modal';
 
-export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, timestamp, username }: TweetProps) => {
+export const Tweet = ({
+  avatarUrl,
+  content,
+  id,
+  imagesURLs,
+  isAuthUser,
+  likes,
+  name,
+  timestamp,
+  username,
+}: TweetProps) => {
   const { user } = useAuth();
   const { deleteTweet, toggleLike } = useTweets();
 
@@ -75,10 +86,11 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
     <TweetContainer>
       <AvatarMedium src={avatarUrl} alt="Avatar" />
       <Content>
+        <Name>{name}</Name>
+
         <Username>{username}</Username>
 
         <Timestamp>{getTimeAgoStringFromDate(timestamp)}</Timestamp>
-
         {isAuthUser && (
           <DropdownIconWrapper onClick={openDropdown}>
             <MenuIcon />
@@ -87,16 +99,13 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
             </OutsideClickProvider>
           </DropdownIconWrapper>
         )}
-
         <TweetText>{content}</TweetText>
-
         <TweetImagesContainer $imageCount={imagesURLs.length}>
           {imagesURLs &&
             imagesURLs.map((url) => (
               <TweetImage key={url} src={url} alt="attachment" onClick={handleImageClick(url)} />
             ))}
         </TweetImagesContainer>
-
         <LikeContainer>
           {likes.length}{' '}
           <div aria-label="Toggle like" role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleToggleLike}>

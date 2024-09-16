@@ -8,6 +8,7 @@ const FeedPage = lazy(() => import('@pages/Feed').then((module) => ({ default: m
 const ProfilePage = lazy(() => import('@pages/Profile').then((module) => ({ default: module.ProfilePage })));
 const SigninPage = lazy(() => import('@pages/Signin').then((module) => ({ default: module.SigninPage })));
 const SignupPage = lazy(() => import('@pages/Signup').then((module) => ({ default: module.SignupPage })));
+const TweetPage = lazy(() => import('@pages/Tweet').then((module) => ({ default: module.TweetPage })));
 
 export const router = [
   {
@@ -25,6 +26,10 @@ export const router = [
   {
     Component: () => <LayoutWrapper Component={FeedPage} />,
     path: ROUTES.HOME,
+  },
+  {
+    Component: () => <LayoutWrapper Component={TweetPage} />,
+    path: ROUTES.TWEET,
   },
   {
     Component: ErrorPage,
