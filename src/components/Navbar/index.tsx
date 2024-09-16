@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import logoIcon from '@assets/images/twitterLogo.png';
 import { Button, NavItem } from '@components/common';
@@ -14,9 +14,15 @@ export const Navbar = () => {
   const { user } = useAuth();
   const { closeModal, isModalOpen, openModal } = useModal();
 
-  const [activeRoute, setActiveRoute] = useState(NAV_ROUTES[0]);
+  const location = useLocation();
 
-  const handleCreateTweet = () => {};
+  const getLink = (label: string, link: string) => (label === 'Profile' ? `/profile/${user?.id}` : link);
+
+  const isRouteActive = (label: string, link: string) => {
+    const actualLink = getLink(label, link);
+
+    return actualLink === '/' ? location.pathname === actualLink : location.pathname.startsWith(actualLink);
+  };
 
   return (
     <NavbarContainer>
@@ -25,16 +31,15 @@ export const Navbar = () => {
         {NAV_ROUTES.map(({ Icon, label, link }) => (
           <NavItem
             key={label}
-            isActive={activeRoute.label === label}
-            item={{ Icon, label, link: label === 'Profile' ? `/profile/${user.id}` : link }}
-            onClick={setActiveRoute}
+            isActive={isRouteActive(label, link)}
+            item={{ Icon, label, link: getLink(label, link) }}
           />
         ))}
       </NavList>
       <Button onClick={openModal} type="button" label="Tweet" name="Tweet" styleType={ButtonType.Brand} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <TweetInput onTweet={handleCreateTweet} />
+        <TweetInput />
       </Modal>
     </NavbarContainer>
   );
