@@ -29,3 +29,9 @@ export const searchTweetsByUserSuccess = (tweets: Tweet[]) =>
   createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_SUCCESS, tweets);
 export const searchTweetsByUserFail = (error: string) =>
   createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_FAIL, error);
+
+export const searchTweetsRequest = (query: string, userId: string) =>
+  createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, { query, userId });
+export const searchTweetsSuccess = (tweets: TweetWithAuthor[]) =>
+  createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_SUCCESS, tweets);
+export const searchTweetsFail = (error: string) => createAction(TWEET_ACTION_TYPES.SEARCH_TWEETS_FAIL, error);

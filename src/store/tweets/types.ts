@@ -6,7 +6,7 @@ export interface TweetsState {
   tweets: Tweet[];
   error: string | null;
   isLoading: boolean;
-  searchTweets: Tweet[];
+  searchTweets: TweetWithAuthor[];
   feed: TweetWithAuthor[];
 }
 
@@ -26,6 +26,10 @@ export const TWEET_ACTION_TYPES: Record<string, string> = {
   SEARCH_TWEETS_BY_USER_FAIL: 'SEARCH_TWEETS_BY_USER_FAIL',
   SEARCH_TWEETS_BY_USER_REQUEST: 'SEARCH_TWEETS_BY_USER_REQUEST',
   SEARCH_TWEETS_BY_USER_SUCCESS: 'SEARCH_TWEETS_BY_USER_SUCCESS',
+
+  SEARCH_TWEETS_FAIL: 'SEARCH_TWEETS_FAIL',
+  SEARCH_TWEETS_REQUEST: 'SEARCH_TWEETS_REQUEST',
+  SEARCH_TWEETS_SUCCESS: 'SEARCH_TWEETS_SUCCESS',
 
   TOGGLE_LIKE_FAIL: 'TOGGLE_LIKE_FAIL',
   TOGGLE_LIKE_REQUEST: 'TOGGLE_LIKE_REQUEST',
@@ -54,6 +58,12 @@ interface ToggleLikeRequestAction
   extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST, { tweetId: string; userId: string }> {}
 interface ToggleLikeSuccessAction extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_SUCCESS, Tweet> {}
 
+interface SearchTweetsRequestAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, { query: string; userId: string }> {}
+interface SearchTweetsSuccessAction
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_SUCCESS, TweetWithAuthor[]> {}
+interface SearchTweetsFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_FAIL, string> {}
+
 export type TweetActionTypes =
   | AddTweetFailAction
   | AddTweetRequestAction
@@ -69,4 +79,7 @@ export type TweetActionTypes =
   | ToggleLikeSuccessAction
   | SearchTweetsByUserFailAction
   | SearchTweetsByUserRequestAction
-  | SearchTweetsByUserSuccessAction;
+  | SearchTweetsByUserSuccessAction
+  | SearchTweetsRequestAction
+  | SearchTweetsSuccessAction
+  | SearchTweetsFailAction;
