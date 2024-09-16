@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
+import { passwordResetSuccess } from '@lib/toasts';
 import { UserRepository } from '@repositories/UserRepository';
 import { USER_ACTION_TYPES } from '@store/user/types';
 import {
@@ -9,6 +10,12 @@ import {
   fetchUserByIdRequest,
   fetchUserByIdSuccess,
   fetchUserByIdFail,
+  updatePasswordSuccess,
+  updatePasswordFail,
+  updatePasswordRequest,
+  searchUsersSuccess,
+  searchUsersFail,
+  searchUsersRequest,
 } from '@store/user/userActions';
 import { User } from '@type/models/User';
 
@@ -42,7 +49,37 @@ function* fetchUserByIdSaga(action: ReturnType<typeof fetchUserByIdRequest>): Ge
   }
 }
 
+function* updatePasswordSaga(action: ReturnType<typeof updatePasswordRequest>): Generator {
+  try {
+    const { currentPassword, id, newPassword } = action.payload as {
+      currentPassword: string;
+      id: string;
+      newPassword: string;
+    };
+
+    yield call([userRepository, 'updatePassword'], id, currentPassword, newPassword);
+    yield call([userRepository, 'updateFirebaseAuthPassword'], currentPassword, newPassword);
+
+    yield put(updatePasswordSuccess());
+    yield passwordResetSuccess();
+  } catch (error) {
+    yield put(updatePasswordFail('Failed to update password'));
+  }
+}
+
+function* searchUsersSaga(action: ReturnType<typeof searchUsersRequest>) {
+  try {
+    const userRepository = new UserRepository();
+    const users: User[] = yield call([userRepository, 'searchUsers'], action.payload as string);
+    yield put(searchUsersSuccess(users));
+  } catch (error) {
+    yield put(searchUsersFail('Some error occured while searching for users'));
+  }
+}
+
 export function* userSaga() {
   yield takeLatest(USER_ACTION_TYPES.EDIT_USER_REQUEST, editUserSaga);
   yield takeLatest(USER_ACTION_TYPES.FETCH_USER_BY_ID_REQUEST, fetchUserByIdSaga);
+  yield takeLatest(USER_ACTION_TYPES.UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
+  yield takeLatest(USER_ACTION_TYPES.SEARCH_USERS_REQUEST, searchUsersSaga);
 }
