@@ -50,3 +50,8 @@ export const Username = styled.span`
     font-size: ${theme.fontSize.smallX};
   `}
 `;
+
+export const Container = styled.div`
+  width: ${({ theme }) => `${theme.size.full}`};
+  margin: auto;
+`;
