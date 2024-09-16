@@ -1,6 +1,8 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useState } from 'react';
 
+import { failLoadMoreImagedToast } from '@lib/toasts';
+
 import { useError } from './useError';
 
 const MAX_IMAGES_LIMIT = 4;
@@ -61,6 +63,7 @@ export const useStorageUpload = () => {
     const totalImages = selectedImages.length + newFiles.length;
 
     if (totalImages > MAX_IMAGES_LIMIT) {
+      failLoadMoreImagedToast();
       const remainingSlots = MAX_IMAGES_LIMIT - selectedImages.length;
       const filesToAdd = newFiles.slice(0, remainingSlots);
 
