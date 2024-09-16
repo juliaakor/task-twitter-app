@@ -1,3 +1,4 @@
+import { searchTweetsRequest } from '@/store/tweets/tweetsActions';
 import { generateId } from '@lib/auth/generateId';
 import { useAppDispatch, useAppSelector } from '@store/index';
 import {
@@ -12,7 +13,7 @@ import { Tweet } from '@type/models';
 
 export const useTweets = () => {
   const dispatch = useAppDispatch();
-  const { feed, isLoading, tweets } = useAppSelector(selectTweetsState);
+  const { feed, isLoading, searchTweets, tweets } = useAppSelector(selectTweetsState);
 
   const addTweet = async (tweet: Partial<Tweet>, userId: string) => {
     const tweetPayload = {
@@ -45,6 +46,10 @@ export const useTweets = () => {
     dispatch(fetchAllTweetsRequest());
   };
 
+  const searchTweetsByUser = (query: string, userId: string) => {
+    dispatch(searchTweetsRequest(query, userId));
+  };
+
   return {
     addTweet,
     deleteTweet,
@@ -52,6 +57,8 @@ export const useTweets = () => {
     getAllTweets,
     getUserTweets,
     isLoading,
+    searchTweets,
+    searchTweetsByUser,
     toggleLike,
     tweetsByUser: tweets,
   };
