@@ -31,6 +31,7 @@ export const FeedPage = () => {
                 isAuthUser={tweet.author.id === user.id}
                 key={tweet.id}
                 id={tweet.id}
+                name={tweet.author?.name || ''}
                 content={tweet.content}
                 likes={tweet.likes}
                 timestamp={tweet.createdAt}

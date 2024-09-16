@@ -50,6 +50,7 @@ export const ProfilePage = () => {
           isAuthUser={isAuthUser}
           id={tweet.id}
           key={tweet.id}
+          name={currentUser.name}
           username={currentUser?.username || 'Unknown'}
           content={tweet.content}
           likes={tweet.likes}
