@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 
+import { useTweets } from '@/hooks/useTweets';
 import { ImageIcon } from '@assets/icons/imageIcon';
 import defautProfile from '@assets/images/defaultProfile.png';
 import { Button, ImagePreviewList } from '@components/common';
@@ -8,10 +9,10 @@ import { useAuth, useStorageUpload } from '@hooks/index';
 import { AvatarMedium } from '@styles/components';
 
 import { ButtonContainer, InputArea, TextArea, TweetInputContainer, Input } from './styled';
-import { TweetInputProps } from './types';
 
-export const TweetInput = ({ onTweet }: TweetInputProps) => {
+export const TweetInput = () => {
   const { user } = useAuth();
+  const { addTweet } = useTweets();
 
   const [content, setContent] = useState('');
   const { handleImageChange, removeImage, resetImages, selectedImages, uploadImages } = useStorageUpload();
@@ -22,7 +23,7 @@ export const TweetInput = ({ onTweet }: TweetInputProps) => {
     if (content.trim() || selectedImages.length > 0) {
       const imageURLs = await uploadImages();
 
-      onTweet(content, imageURLs);
+      await addTweet({ content, images: imageURLs }, user?.id || '');
 
       setContent('');
       resetImages();
@@ -47,7 +48,7 @@ export const TweetInput = ({ onTweet }: TweetInputProps) => {
 
   return (
     <TweetInputContainer>
-      <AvatarMedium src={user.avatarUrl || defautProfile} alt="User Avatar" />
+      <AvatarMedium src={user?.avatarUrl || defautProfile} alt="User Avatar" />
       <InputArea>
         <TextArea value={content} onChange={handleTextareaChange} placeholder="What's happening?" rows={2} />
 

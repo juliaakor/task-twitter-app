@@ -67,6 +67,8 @@ export const TweetContainer = styled.div`
 `;
 
 export const Content = styled.div`
+  width: 90%;
+
   ${({ theme }) => `
     flex: ${theme.size.small};
     font-family: ${theme.fontFamily.primary};
@@ -82,7 +84,7 @@ export const Timestamp = styled.span`
   `}
 `;
 
-export const TweetText = styled.div`
+export const TweetText = styled.p`
   ${({ theme }) => `
     font-size: ${theme.fontSize.medium};
   `}
