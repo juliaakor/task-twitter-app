@@ -24,12 +24,10 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     getUserById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (currentUser?.id) getUserTweets(currentUser?.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.id]);
 
   const handleEditUser = () => {

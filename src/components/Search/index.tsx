@@ -10,17 +10,18 @@ import { TweetsList } from '@components/TweetsList';
 import { Input, SearchContainer, SearchIconContainer, SearchItem } from './styled';
 import { SearchProps } from './types';
 
+const DEFAULT_DEBOUNCE_TIME_MS = 300;
+
 export const Search = ({ userId }: SearchProps) => {
   const { searchTweets, searchTweetsByUser } = useTweets();
   const { searchUsers } = useUser();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, DEFAULT_DEBOUNCE_TIME_MS);
 
   useEffect(() => {
     searchUsers(debouncedQuery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -30,7 +31,6 @@ export const Search = ({ userId }: SearchProps) => {
       return;
     }
     searchUsers(debouncedQuery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery, userId]);
 
   const handleFocus = () => userId && setIsOpen(true);

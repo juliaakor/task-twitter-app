@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore';
 
 import { db } from '@/firebase';
+import { defaultTweetInfo } from '@constants/auth';
 import { BaseRepository } from '@repositories/BaseRepository';
 import { User } from '@type/models';
 import { Tweet, TweetWithAuthor } from '@type/models/Tweet';
@@ -72,10 +73,11 @@ export class TweetRepository implements BaseRepository<Tweet> {
     const authorData = authorSnap.exists() ? (authorSnap.data() as User) : null;
 
     return {
+      ...defaultTweetInfo,
       id: tweetSnap.id,
       ...tweetData,
-      author: authorData ? { ...authorData, id: authorRef.id } : null,
-    } as TweetWithAuthor;
+      author: { ...authorData, id: authorRef.id },
+    };
   }
 
   async create(tweetData: Partial<Tweet>, userId: string): Promise<void> {
