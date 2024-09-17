@@ -40,9 +40,24 @@ export const TWEET_ACTION_TYPES: Record<string, string> = {
   TOGGLE_LIKE_REQUEST: 'TOGGLE_LIKE_REQUEST',
   TOGGLE_LIKE_SUCCESS: 'TOGGLE_LIKE_SUCCESS',
 };
+
+export interface AddNewTweetProps {
+  tweet: Partial<Tweet>;
+  userId: string;
+}
+
+export interface ToggleLikeProps {
+  tweetId: string;
+  userId: string;
+}
+
+export interface SearchTweetsProps {
+  query: string;
+  userId: string;
+}
+
 interface AddTweetFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.ADD_TWEET_FAIL, string> {}
-interface AddTweetRequestAction
-  extends BaseAction<typeof TWEET_ACTION_TYPES.ADD_TWEET_REQUEST, { tweet: Partial<Tweet>; userId: string }> {}
+interface AddTweetRequestAction extends BaseAction<typeof TWEET_ACTION_TYPES.ADD_TWEET_REQUEST, AddNewTweetProps> {}
 interface AddTweetSuccessAction extends BaseAction<typeof TWEET_ACTION_TYPES.ADD_TWEET_SUCCESS, Tweet> {}
 
 interface DeleteTweetFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.DELETE_TWEET_FAIL, string> {}
@@ -67,12 +82,11 @@ interface SearchTweetByIdSuccessAction
   extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_SUCCESS, TweetWithAuthor> {}
 
 interface ToggleLikeFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_FAIL, string> {}
-interface ToggleLikeRequestAction
-  extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST, { tweetId: string; userId: string }> {}
+interface ToggleLikeRequestAction extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST, ToggleLikeProps> {}
 interface ToggleLikeSuccessAction extends BaseAction<typeof TWEET_ACTION_TYPES.TOGGLE_LIKE_SUCCESS, Tweet> {}
 
 interface SearchTweetsRequestAction
-  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, { query: string; userId: string }> {}
+  extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST, SearchTweetsProps> {}
 interface SearchTweetsSuccessAction
   extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_SUCCESS, TweetWithAuthor[]> {}
 interface SearchTweetsFailAction extends BaseAction<typeof TWEET_ACTION_TYPES.SEARCH_TWEETS_FAIL, string> {}
