@@ -24,7 +24,7 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     getUserById(id);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (currentUser?.id) getUserTweets(currentUser?.id);

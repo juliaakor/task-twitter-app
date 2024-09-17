@@ -15,7 +15,7 @@ export const TweetPage = () => {
 
   useEffect(() => {
     getTweetById(tweetId);
-  }, []);
+  }, [tweetId]);
 
   const isAuthUser = activeTweet?.author?.id === user?.id;
 

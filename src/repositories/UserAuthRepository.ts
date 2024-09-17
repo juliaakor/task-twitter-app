@@ -139,7 +139,7 @@ export class UserAuthRepository implements AuthRepository {
       await UserAuthRepository.validateUserPassword(password, userPassword);
     }
 
-    this.userId ??= userInfo.id;
+    this.userId = userInfo.id ?? '';
     if (!this.userId) {
       throw new Error('User ID is undefined');
     }

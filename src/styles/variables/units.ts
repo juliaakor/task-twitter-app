@@ -29,6 +29,8 @@ export const size = {
   icon: '20px',
   imagePreviewMedium: '7.5rem',
   imagePreviewSmall: '5rem',
+  imagesPreview: '5.5rem',
+  maxImagePreview: '31.25rem',
   none: 0,
   small: 1,
   small2X: 4,
