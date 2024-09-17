@@ -2,10 +2,13 @@ import { KeyboardEvent, useState } from 'react';
 
 import { LikeIcon } from '@assets/icons/likeIcon';
 import { MenuIcon } from '@assets/icons/menuIcon';
+import { ConfirmationModal } from '@components/ConfirmationModal';
 import { Dropdown } from '@components/Dropdown';
 import { DropdownOption } from '@components/Dropdown/types';
+import { ImagePopup } from '@components/ImagePopup';
 import { OutsideClickProvider } from '@components/OutsideClickProvider';
 import { useAuth, useModal } from '@hooks/index';
+import { useTweets } from '@hooks/useTweets';
 import { getTimeAgoStringFromDate } from '@lib/format/getTimeAgoStringFromDate';
 import { AvatarMedium, Username } from '@styles/components';
 
@@ -18,13 +21,9 @@ import {
   Timestamp,
   TweetText,
   LikeContainer,
-  ModalImage,
   Name,
 } from './styled';
 import { TweetProps } from './types';
-import { useTweets } from '../../hooks/useTweets';
-import { ConfirmationModal } from '../ConfirmationModal';
-import { Modal } from '../Modal';
 
 export const Tweet = ({
   avatarUrl,
@@ -48,7 +47,7 @@ export const Tweet = ({
     openModal: openComfirmation,
   } = useModal(false);
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
 
   const handleDeleteTweet = async () => {
     if (!user || !isAuthUser) return;
@@ -72,7 +71,7 @@ export const Tweet = ({
   };
 
   const handleCloseImage = () => {
-    setSelectedImage(null);
+    setSelectedImage(undefined);
     closeImage();
   };
 
@@ -114,11 +113,7 @@ export const Tweet = ({
         </LikeContainer>
       </Content>
 
-      {selectedImage && (
-        <Modal isOpen={isImageOpen} onClose={handleCloseImage}>
-          <ModalImage src={selectedImage} alt="Selected" />
-        </Modal>
-      )}
+      <ImagePopup closeImage={handleCloseImage} isImageOpen={isImageOpen} selectedImage={selectedImage} />
 
       <ConfirmationModal isOpen={isComfirmationOpen} onClose={closeComfirmation} onConfirm={handleDeleteTweet} />
     </TweetContainer>

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const SuggestionsContainer = styled.div`
+  width: fit-content;
+
   ${({ theme }) => `
     background: ${theme.colors.bgPopup};
     margin: ${theme.spacing.medium} ${theme.spacing.none};
