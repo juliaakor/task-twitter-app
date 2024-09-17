@@ -1,3 +1,4 @@
+import { UserWithoutPassword } from '@/types/models/User';
 import { useAppDispatch, useAppSelector } from '@store/index';
 import { selectUserState } from '@store/user';
 import {
@@ -6,13 +7,12 @@ import {
   searchUsersRequest,
   updatePasswordRequest,
 } from '@store/user/userActions';
-import { User } from '@type/models';
 
 export const useUser = () => {
   const dispatch = useAppDispatch();
   const { error, isLoading, userInfo, users } = useAppSelector(selectUserState);
 
-  const editUser = (id: string, userData: Partial<Omit<User, 'password'>>) => {
+  const editUser = (id: string, userData: UserWithoutPassword) => {
     dispatch(editUserRequest(id, userData));
   };
 

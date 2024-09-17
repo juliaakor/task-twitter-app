@@ -4,7 +4,7 @@ import { media } from '@styles/breakpoints';
 
 export const LayoutContainer = styled.div`
   display: grid;
-  grid-template-columns: 20% 1fr 20%;
+  grid-template-columns: 20% 1fr 25%;
   margin: auto;
   width: 90%;
 
@@ -32,7 +32,7 @@ export const MiddleSection = styled.main`
   overflow-y: auto;
 
   ${({ theme }) => `
-    padding: ${theme.spacing.medium};
+    padding: 0 ${theme.spacing.medium};
     background: ${theme.colors.bgPrimary};
   `}
 `;
