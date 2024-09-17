@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { UserIdRoute } from '@/types/routes';
 import defautProfile from '@assets/images/defaultProfile.png';
 import { EditUserModal } from '@components/EditUserModal';
-import { Loader } from '@components/index';
+import { ErrorBoundary, Loader } from '@components/index';
 import { ProfileHeader } from '@components/ProfileHeader';
 import { Tweet as TweetItem } from '@components/Tweet';
 import { TweetInput } from '@components/TweetInput';
@@ -24,12 +24,10 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     getUserById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (currentUser?.id) getUserTweets(currentUser?.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.id]);
 
   const handleEditUser = () => {
@@ -67,19 +65,21 @@ export const ProfilePage = () => {
   return (
     <>
       <Container>
-        <ProfileHeader
-          isAuthUser={isAuthUser}
-          name={currentUser?.name}
-          username={currentUser?.username}
-          bio={currentUser?.bio}
-          followers={currentUser?.followers}
-          following={currentUser?.following}
-          avatarUrl={currentUser.avatarUrl || defautProfile}
-          onEditProfile={handleEditUser}
-          headerPicUrl={currentUser.headerPicUrl}
-        />
-        {isAuthUser && <TweetInput />}
-        <div>{isLoading ? <Loader /> : tweets}</div>
+        <ErrorBoundary>
+          <ProfileHeader
+            isAuthUser={isAuthUser}
+            name={currentUser?.name}
+            username={currentUser?.username}
+            bio={currentUser?.bio}
+            followers={currentUser?.followers}
+            following={currentUser?.following}
+            avatarUrl={currentUser.avatarUrl || defautProfile}
+            onEditProfile={handleEditUser}
+            headerPicUrl={currentUser.headerPicUrl}
+          />
+          {isAuthUser && <TweetInput />}
+          <div>{isLoading ? <Loader /> : tweets}</div>
+        </ErrorBoundary>
       </Container>
       <EditUserModal isOpen={isModalOpen} onClose={handleCloseModal} user={currentUser} />
     </>

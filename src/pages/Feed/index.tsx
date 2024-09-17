@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import defautProfile from '@assets/images/defaultProfile.png';
-import { Loader } from '@components/index';
+import { ErrorBoundary, Loader } from '@components/index';
 import { Tweet } from '@components/Tweet';
 import { TweetInput } from '@components/TweetInput';
 import { useAuth } from '@hooks/useAuth';
@@ -15,7 +15,6 @@ export const FeedPage = () => {
 
   useEffect(() => {
     getAllTweets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!user || isLoading) return <Loader />;
@@ -26,22 +25,24 @@ export const FeedPage = () => {
     <Container>
       <TweetInput />
       <div>
-        {feed.length > 0
-          ? feed.map((tweet) => (
-              <Tweet
-                isAuthUser={tweet.author.id === user.id}
-                key={tweet.id}
-                id={tweet.id}
-                name={tweet.author?.name || ''}
-                content={tweet.content}
-                likes={tweet.likes}
-                timestamp={tweet.createdAt}
-                avatarUrl={tweet.author?.avatarUrl || defautProfile}
-                username={tweet.author?.username || ''}
-                imagesURLs={tweet.images || []}
-              />
-            ))
-          : LayoutLoading}
+        <ErrorBoundary>
+          {feed.length > 0
+            ? feed.map((tweet) => (
+                <Tweet
+                  isAuthUser={tweet.author?.id === user.id}
+                  key={tweet.id}
+                  id={tweet.id}
+                  name={tweet.author?.name || ''}
+                  content={tweet.content}
+                  likes={tweet.likes}
+                  timestamp={tweet.createdAt}
+                  avatarUrl={tweet.author?.avatarUrl || defautProfile}
+                  username={tweet.author?.username || ''}
+                  imagesURLs={tweet.images || []}
+                />
+              ))
+            : LayoutLoading}
+        </ErrorBoundary>
       </div>
     </Container>
   );

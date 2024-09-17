@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import { UserPicturesPreview } from '@/components/UserPicturesPreview';
 import { Footer } from '@components/Footer';
 import { Search } from '@components/Search';
 import { SuggestionsSection } from '@components/SuggestionsSection';
@@ -13,6 +14,7 @@ export const RightSidebar = () => {
   return (
     <RightSidebarContainer>
       <Search userId={id} />
+      {id && <UserPicturesPreview />}
       <SuggestionsSection />
       <Footer isFullView={false} />
     </RightSidebarContainer>

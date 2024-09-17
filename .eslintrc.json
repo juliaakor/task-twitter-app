@@ -100,6 +100,7 @@
         "varsIgnorePattern": "^_$"
       }
     ],
-    "default-param-last": 0
+    "default-param-last": 0,
+    "react-hooks/exhaustive-deps": 0
   }
 }

@@ -6,3 +6,11 @@ export const defaultUserInfo = {
   following: [],
   headerPicUrl: '',
 };
+
+export const defaultTweetInfo = {
+  content: '',
+  createdAt: '',
+  images: [],
+  isDeleted: false,
+  likes: [],
+};

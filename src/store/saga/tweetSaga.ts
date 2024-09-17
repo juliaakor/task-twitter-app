@@ -47,6 +47,16 @@ function* deleteTweetSaga(action: ReturnType<typeof deleteTweetRequest>): Genera
   }
 }
 
+function* searchTweetByIdSaga(action: ReturnType<typeof searchTweetByIdRequest>): Generator {
+  try {
+    const tweet = yield call([tweetRepository, 'findByIdWithAuthor'], action.payload as string);
+
+    yield put(searchTweetByIdSuccess(tweet as TweetWithAuthor));
+  } catch (error) {
+    yield put(searchTweetByIdFail('Failed to fetch tweets'));
+  }
+}
+
 function* toggleLikeSaga(action: ReturnType<typeof toggleLikeRequest>): Generator {
   try {
     const tweet = yield call(
@@ -58,6 +68,7 @@ function* toggleLikeSaga(action: ReturnType<typeof toggleLikeRequest>): Generato
       yield call([tweetRepository, 'toggleLike'], action.payload.tweetId, action.payload.userId);
       const updatedTweet = yield call([tweetRepository, 'findOne'], action.payload.tweetId);
       yield put(toggleLikeSuccess(updatedTweet as Tweet));
+      yield put(searchTweetByIdRequest(action.payload?.tweetId || ''));
     } else {
       yield put(toggleLikeFail('Tweet not found'));
     }
@@ -94,16 +105,6 @@ function* searchTweetsSaga(action: ReturnType<typeof searchTweetsRequest>) {
     yield put(searchTweetsSuccess(tweets as TweetWithAuthor[]));
   } catch (error) {
     yield put(searchTweetsFail('Error occured while searching tweets'));
-  }
-}
-
-function* searchTweetByIdSaga(action: ReturnType<typeof searchTweetByIdRequest>): Generator {
-  try {
-    const tweet = yield call([tweetRepository, 'findByIdWithAuthor'], action.payload as string);
-
-    yield put(searchTweetByIdSuccess(tweet as TweetWithAuthor));
-  } catch (error) {
-    yield put(searchTweetByIdFail('Failed to fetch tweets'));
   }
 }
 

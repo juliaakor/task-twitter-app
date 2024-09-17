@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks';
 import { useTweets } from '@/hooks/useTweets';
 import { TweetIdRoute } from '@/types/routes';
 import defautProfile from '@assets/images/defaultProfile.png';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 
 export const TweetPage = () => {
   const { activeTweet, getTweetById } = useTweets();
@@ -15,25 +16,26 @@ export const TweetPage = () => {
 
   useEffect(() => {
     getTweetById(tweetId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tweetId]);
 
   const isAuthUser = activeTweet?.author?.id === user?.id;
 
   return (
     <div>
-      <Tweet
-        isAuthUser={isAuthUser}
-        id={activeTweet?.id || ''}
-        key={activeTweet?.id}
-        name={activeTweet?.author.name || ''}
-        username={activeTweet?.author?.username || 'Unknown'}
-        content={activeTweet?.content || ''}
-        likes={activeTweet?.likes || []}
-        timestamp={activeTweet?.createdAt || ''}
-        avatarUrl={activeTweet?.author.avatarUrl || defautProfile}
-        imagesURLs={activeTweet?.images || []}
-      />
+      <ErrorBoundary>
+        <Tweet
+          isAuthUser={isAuthUser}
+          id={activeTweet?.id || ''}
+          key={activeTweet?.id}
+          name={activeTweet?.author?.name || ''}
+          username={activeTweet?.author?.username || 'Unknown'}
+          content={activeTweet?.content || ''}
+          likes={activeTweet?.likes || []}
+          timestamp={activeTweet?.createdAt || ''}
+          avatarUrl={activeTweet?.author?.avatarUrl || defautProfile}
+          imagesURLs={activeTweet?.images || []}
+        />
+      </ErrorBoundary>
     </div>
   );
 };
