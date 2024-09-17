@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { UserIdRoute } from '@/types/routes';
 import defautProfile from '@assets/images/defaultProfile.png';
 import { EditUserModal } from '@components/EditUserModal';
 import { Loader } from '@components/index';
@@ -17,7 +18,7 @@ export const ProfilePage = () => {
 
   const { getUserTweets, isLoading, tweetsByUser } = useTweets();
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<UserIdRoute>();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 

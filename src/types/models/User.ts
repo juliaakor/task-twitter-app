@@ -15,3 +15,5 @@ export interface User {
   password?: string;
   birthday?: string;
 }
+
+export type UserWithoutPassword = Partial<Omit<User, 'password'>>;

@@ -16,7 +16,7 @@ export const ROUTES = {
   PROFILE: '/profile/:id',
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
-  TWEET: '/tweet/:id',
+  TWEET: '/tweet/:tweetId',
 };
 
 export interface NavItem {

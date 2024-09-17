@@ -4,16 +4,17 @@ import { useParams } from 'react-router-dom';
 import { Tweet } from '@/components/Tweet';
 import { useAuth } from '@/hooks';
 import { useTweets } from '@/hooks/useTweets';
+import { TweetIdRoute } from '@/types/routes';
 import defautProfile from '@assets/images/defaultProfile.png';
 
 export const TweetPage = () => {
   const { activeTweet, getTweetById } = useTweets();
 
-  const { id } = useParams<{ id: string }>();
+  const { tweetId } = useParams<TweetIdRoute>();
   const { user } = useAuth();
 
   useEffect(() => {
-    getTweetById(id);
+    getTweetById(tweetId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

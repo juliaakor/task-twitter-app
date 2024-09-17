@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import defautProfile from '@assets/images/defaultProfile.png';
 import { Loader } from '@components/index';
 import { Tweet } from '@components/Tweet';
 import { TweetInput } from '@components/TweetInput';
@@ -35,7 +36,7 @@ export const FeedPage = () => {
                 content={tweet.content}
                 likes={tweet.likes}
                 timestamp={tweet.createdAt}
-                avatarUrl={tweet.author?.avatarUrl || ''}
+                avatarUrl={tweet.author?.avatarUrl || defautProfile}
                 username={tweet.author?.username || ''}
                 imagesURLs={tweet.images || []}
               />
