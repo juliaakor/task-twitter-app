@@ -15,16 +15,23 @@ export const AUTH_ACTION_TYPES: Record<string, string> = {
   SIGN_IN_FAIL: 'SIGN_IN_FAIL',
   SIGN_IN_REQUEST: 'SIGN_IN_REQUEST',
   SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
+
   SIGN_OUT_FAIL: 'SIGN_OUT_FAIL',
   SIGN_OUT_REQUEST: 'SIGN_OUT_REQUEST',
   SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
+
   SIGN_UP_FAIL: 'SIGN_UP_FAIL',
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
+
   SIGN_UP_WITH_GOOGLE_FAIL: 'SIGN_UP_WITH_GOOGLE_FAIL',
   SIGN_UP_WITH_GOOGLE_REQUEST: 'SIGN_UP_WITH_GOOGLE_REQUEST',
   SIGN_UP_WITH_GOOGLE_SUCCESS: 'SIGN_UP_WITH_GOOGLE_SUCCESS',
+
+  UPDATE_USER_SUCCESS: 'UPDATE_USER_SUCCESS',
 };
+
+interface UpdateUserSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.UPDATE_USER_SUCCESS, User> {}
 
 interface SignInRequestAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_REQUEST, UserLogin> {}
 interface SignInSuccessAction extends BaseAction<typeof AUTH_ACTION_TYPES.SIGN_IN_SUCCESS, User> {}
@@ -55,4 +62,5 @@ export type AuthActionTypes =
   | SignOutFailAction
   | SignUpWithGoogleRequestAction
   | SignUpWithGoogleSuccessAction
-  | SignUpWithGoogleFailAction;
+  | SignUpWithGoogleFailAction
+  | UpdateUserSuccessAction;

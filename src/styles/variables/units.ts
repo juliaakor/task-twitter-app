@@ -34,12 +34,14 @@ export const size = {
   small2X: 4,
   small3X: 5,
   smallX: 2,
+  userPreviewSmall: '18rem',
 };
 
 export const radius = {
   button: '76px',
   circle: '50%',
   medium: '8px',
+  search: '24px',
   small: '6px',
   switch: '15px',
 };

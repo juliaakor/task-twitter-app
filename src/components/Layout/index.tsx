@@ -3,6 +3,7 @@ import { KeyboardEvent } from 'react';
 import { BurgerMenuIcon } from '@assets/icons/burgerMenuIcon';
 import { LeftSidebar } from '@components/Layout/LeftSidebar';
 import { RightSidebar } from '@components/Layout/RightSidebar';
+import { PageHeader } from '@components/PageHeader';
 import { useToggleMenu } from '@hooks/index';
 
 import { LayoutContainer, MenuIconWrapper, MiddleSection } from './styled';
@@ -35,7 +36,10 @@ export const Layout = ({ children }: LayoutProps) => {
         </MenuIconWrapper>
       )}
       {(!isMobile || isMenuOpen) && <LeftSidebar />}
-      <MiddleSection>{children}</MiddleSection>
+      <MiddleSection>
+        <PageHeader />
+        {children}
+      </MiddleSection>
       <RightSidebar />
     </LayoutContainer>
   );

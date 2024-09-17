@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const RightSidebarContainer = styled.div`
-  width: fit-content;
+  width: auto;
 
   ${({ theme }) => `
     padding: ${theme.spacing.medium};

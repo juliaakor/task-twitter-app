@@ -21,6 +21,7 @@ export const resetStyles = css`
       padding: ${theme.spacing.none};
       outline: ${theme.spacing.none};
       font-family: ${theme.fontFamily.primary}, ${theme.fontFamily.secondary}, sans-serif;
+      color: ${theme.colors.textPrimary};
     `}
 
     box-sizing: border-box;

@@ -39,12 +39,7 @@ const SignUpTypeField = ({ useEmail }: SignUpTypeFieldProps) => {
   const fieldAttr = useEmail ? SignUpTypeFieldOptions.email : SignUpTypeFieldOptions.phone;
 
   useEffect(() => {
-    if (useEmail) {
-      setValue('email', '');
-
-      return;
-    }
-
+    setValue('email', '');
     setValue('phone', '');
   }, [useEmail, setValue]);
 

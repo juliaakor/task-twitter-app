@@ -1,3 +1,4 @@
+import { UserWithoutPassword } from '@/types/models/User';
 import { BaseAction } from '@store/types';
 import { User } from '@type/models';
 
@@ -26,12 +27,19 @@ export const USER_ACTION_TYPES: Record<string, string> = {
   UPDATE_PASSWORD_SUCCESS: 'UPDATE_PASSWORD_SUCCESS',
 };
 
+export interface EditUserProps {
+  id: string;
+  userData: UserWithoutPassword;
+}
+
+export interface UpdatePasswordProps {
+  id: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 interface EditUserFailAction extends BaseAction<typeof USER_ACTION_TYPES.EDIT_USER_FAIL, string> {}
-interface EditUserRequestAction
-  extends BaseAction<
-    typeof USER_ACTION_TYPES.EDIT_USER_REQUEST,
-    { id: string; userData: Partial<Omit<User, 'password'>> }
-  > {}
+interface EditUserRequestAction extends BaseAction<typeof USER_ACTION_TYPES.EDIT_USER_REQUEST, EditUserProps> {}
 interface EditUserSuccessAction extends BaseAction<typeof USER_ACTION_TYPES.EDIT_USER_SUCCESS, User> {}
 
 interface FetchUserByIdFailAction extends BaseAction<typeof USER_ACTION_TYPES.EDIT_USER_FAIL, string> {}
@@ -43,10 +51,7 @@ interface SearchUsersRequestAction extends BaseAction<typeof USER_ACTION_TYPES.S
 interface SearchUsersSuccessAction extends BaseAction<typeof USER_ACTION_TYPES.SEARCH_USERS_SUCCESS, User[]> {}
 
 interface UpdatePasswordRequestAction
-  extends BaseAction<
-    typeof USER_ACTION_TYPES.UPDATE_PASSWORD_REQUEST,
-    { id: string; currentPassword: string; newPassword: string }
-  > {}
+  extends BaseAction<typeof USER_ACTION_TYPES.UPDATE_PASSWORD_REQUEST, UpdatePasswordProps> {}
 interface UpdatePasswordSuccessAction extends BaseAction<typeof USER_ACTION_TYPES.UPDATE_PASSWORD_SUCCESS, void> {}
 interface UpdatePasswordFailAction extends BaseAction<typeof USER_ACTION_TYPES.UPDATE_PASSWORD_FAIL, string> {}
 

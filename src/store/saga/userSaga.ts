@@ -2,7 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { passwordResetSuccess } from '@lib/toasts';
 import { UserRepository } from '@repositories/UserRepository';
-import { USER_ACTION_TYPES } from '@store/user/types';
+import { updateUserSuccess } from '@store/auth/authActions';
+import { EditUserProps, USER_ACTION_TYPES } from '@store/user/types';
 import {
   editUserRequest,
   editUserSuccess,
@@ -17,18 +18,19 @@ import {
   searchUsersFail,
   searchUsersRequest,
 } from '@store/user/userActions';
-import { User } from '@type/models/User';
+import { User, UserWithoutPassword } from '@type/models/User';
 
 const userRepository = new UserRepository();
 
 function* editUserSaga(action: ReturnType<typeof editUserRequest>): Generator {
   try {
-    const { id, userData } = action.payload as { id: string; userData: Partial<Omit<User, 'password'>> };
+    const { id, userData } = action.payload as EditUserProps;
 
-    yield call([userRepository, 'update'], id as string, userData as Partial<Omit<User, 'password'>>);
+    yield call([userRepository, 'update'], id as string, userData as UserWithoutPassword);
 
     const user = yield call([userRepository, 'findOne'], id);
     yield put(editUserSuccess(user as User));
+    yield put(updateUserSuccess(user as User));
   } catch (error) {
     yield put(editUserFail('Failed to edit user'));
   }

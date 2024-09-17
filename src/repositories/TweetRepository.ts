@@ -57,6 +57,27 @@ export class TweetRepository implements BaseRepository<Tweet> {
     return docSnap.exists() ? ({ id: docSnap.id, ...docSnap.data() } as Tweet) : null;
   }
 
+  async findByIdWithAuthor(id: string): Promise<TweetWithAuthor | null> {
+    const tweetRef = doc(this.db, 'tweets', id);
+    const tweetSnap = await getDoc(tweetRef);
+
+    if (!tweetSnap.exists()) {
+      return null;
+    }
+
+    const tweetData = tweetSnap.data();
+    const authorRef = tweetData.author as DocumentReference;
+    const authorSnap = await getDoc(authorRef);
+
+    const authorData = authorSnap.exists() ? (authorSnap.data() as User) : null;
+
+    return {
+      id: tweetSnap.id,
+      ...tweetData,
+      author: authorData ? { ...authorData, id: authorRef.id } : null,
+    } as TweetWithAuthor;
+  }
+
   async create(tweetData: Partial<Tweet>, userId: string): Promise<void> {
     const userRef = doc(this.db, 'users', userId);
 

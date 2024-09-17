@@ -5,7 +5,7 @@ export const SelectItem = styled.div`
 `;
 
 export const SelectContainer = styled.div`
-  width: max-content;
+  width: auto;
   height: max-content;
 
   ${({ theme }) => `

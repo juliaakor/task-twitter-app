@@ -10,7 +10,7 @@ import { doc, getDoc, setDoc, collection, getDocs, query, orderBy, Firestore, wh
 import { auth, db } from '@/firebase';
 import { compareHashedProvider } from '@lib/format';
 import { BaseRepository } from '@repositories/BaseRepository';
-import { User } from '@type/models/User';
+import { User, UserWithoutPassword } from '@type/models/User';
 
 export class UserRepository extends BaseRepository<User> {
   private db: Firestore = db;
@@ -51,7 +51,7 @@ export class UserRepository extends BaseRepository<User> {
     return null;
   }
 
-  async update(id: string, userData: Partial<Omit<User, 'password'>>): Promise<void> {
+  async update(id: string, userData: UserWithoutPassword): Promise<void> {
     const docRef = doc(this.db, 'users', id);
 
     await setDoc(docRef, userData, { merge: true });
