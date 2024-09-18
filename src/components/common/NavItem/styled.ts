@@ -16,3 +16,9 @@ export const ItemContainer = styled.li`
     padding-right:  ${theme.spacing.large5X};
   `};
 `;
+
+export const NavItemIcon = styled.span`
+  ${({ theme }) => `
+    width: ${theme.size.iconLarge};
+  `};
+`;

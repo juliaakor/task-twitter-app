@@ -30,27 +30,29 @@ export const SuggestionsSection = () => {
   };
 
   return (
-    <SuggestionsContainer>
-      <SuggestionsHeader>You Might Like</SuggestionsHeader>
-      <UsersContainer>
-        {displayedUsers.map((user) =>
-          activeUser?.id === user.id ? null : (
-            <UserPreview
-              key={user.id}
-              id={user.id}
-              avatarUrl={user.avatarUrl || defautProfile}
-              name={user.name}
-              username={user.username}
-              buttonLabel="Follow"
-            />
-          )
-        )}
-        {users.length > visibleCount && (
-          <LinkItem role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleShowMore}>
-            Show More
-          </LinkItem>
-        )}
-      </UsersContainer>
-    </SuggestionsContainer>
+    displayedUsers.length > 0 && (
+      <SuggestionsContainer>
+        <SuggestionsHeader>You Might Like</SuggestionsHeader>
+        <UsersContainer>
+          {displayedUsers.map((user) =>
+            activeUser?.id === user.id ? null : (
+              <UserPreview
+                key={user.id}
+                id={user.id}
+                avatarUrl={user.avatarUrl || defautProfile}
+                name={user.name}
+                username={user.username}
+                buttonLabel="Follow"
+              />
+            )
+          )}
+          {users.length > visibleCount && (
+            <LinkItem role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleShowMore}>
+              Show More
+            </LinkItem>
+          )}
+        </UsersContainer>
+      </SuggestionsContainer>
+    )
   );
 };

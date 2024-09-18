@@ -95,21 +95,39 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   async searchUsers(queryStr: string): Promise<Omit<User, 'password'>[]> {
-    const usersQuery = query(
+    const normalizedQueryStr = queryStr.replace(/^@/, '');
+
+    const usersByNameQuery = query(
       collection(this.db, 'users'),
       where('name', '>=', queryStr),
       where('name', '<=', `${queryStr}\uf8ff`),
       orderBy('name')
     );
 
-    const querySnapshot = await getDocs(usersQuery);
+    const usersByUsernameQuery = query(
+      collection(this.db, 'users'),
+      where('username', '>=', normalizedQueryStr),
+      where('username', '<=', `${normalizedQueryStr}\uf8ff`),
+      orderBy('username')
+    );
 
-    const users = querySnapshot.docs.map((doc) => {
+    const [nameSnapshot, usernameSnapshot] = await Promise.all([
+      getDocs(usersByNameQuery),
+      getDocs(usersByUsernameQuery),
+    ]);
+
+    const combinedDocs = [...nameSnapshot.docs, ...usernameSnapshot.docs];
+
+    const uniqueUsersMap = new Map<string, Omit<User, 'password'>>();
+
+    combinedDocs.forEach((doc) => {
       const user = { id: doc.id, ...doc.data() } as User;
 
-      return UserRepository.sanitizeUser(user);
+      if (!uniqueUsersMap.has(user.id)) {
+        uniqueUsersMap.set(user.id, UserRepository.sanitizeUser(user));
+      }
     });
 
-    return users;
+    return Array.from(uniqueUsersMap.values());
   }
 }

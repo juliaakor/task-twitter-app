@@ -10,6 +10,10 @@ export const TweetInputContainer = styled.div`
   `}
 `;
 
+export const ImageButtonContainer = styled.div`
+  cursor: pointer;
+`;
+
 export const InputArea = styled.div`
   flex: 1;
   display: flex;

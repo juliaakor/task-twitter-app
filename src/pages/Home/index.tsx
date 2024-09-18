@@ -30,6 +30,10 @@ export const HomePage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const handleNavigateHome = () => {
+    navigate(ROUTES.HOME);
+  };
+
   const handleGoogleSignUp = () => {
     dispatch(signUpWithGoogle());
   };
@@ -57,7 +61,7 @@ export const HomePage = () => {
         <Image loading="lazy" src={backTwitter} alt="Twitter Background" />
 
         <PageWrapper>
-          <ImageLogo src={TwitterLogo} alt="Twitter Logo" />
+          <ImageLogo src={TwitterLogo} alt="Twitter Logo" onClick={handleNavigateHome} />
           <Heading>Happening now</Heading>
           <SecondaryHeading>Join Twitter today</SecondaryHeading>
           <SignUpContainer>

@@ -4,6 +4,7 @@ export const TweetsListContainer = styled.div`
   position: absolute;
   max-height: 60vh;
   overflow-y: auto;
+  z-index: 99;
 
   ${({ theme }) => `
     width: ${theme.size.userPreviewSmall};

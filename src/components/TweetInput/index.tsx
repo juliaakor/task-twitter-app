@@ -8,7 +8,7 @@ import { ButtonType } from '@components/common/Button/types';
 import { useAuth, useStorageUpload } from '@hooks/index';
 import { AvatarMedium } from '@styles/components';
 
-import { ButtonContainer, InputArea, TextArea, TweetInputContainer, Input } from './styled';
+import { ImageButtonContainer, ButtonContainer, InputArea, TextArea, TweetInputContainer, Input } from './styled';
 
 export const TweetInput = () => {
   const { user } = useAuth();
@@ -55,7 +55,7 @@ export const TweetInput = () => {
         <ImagePreviewList selectedImages={selectedImages} removeImage={removeImage} />
 
         <ButtonContainer>
-          <div
+          <ImageButtonContainer
             aria-label="Upload image"
             role="button"
             tabIndex={0}
@@ -63,7 +63,7 @@ export const TweetInput = () => {
             onClick={handleImageIconClick}
           >
             <ImageIcon />
-          </div>
+          </ImageButtonContainer>
           <Input type="file" ref={fileInputRef} onChange={handleImageChange} accept="image/*" multiple />
           <Button disabled={!content} label="Tweet" name="Tweet" styleType={ButtonType.Brand} onClick={handleTweet} />
         </ButtonContainer>

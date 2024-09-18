@@ -15,6 +15,7 @@ export const FormContainer = styled.div`
 
 export const Image = styled.img`
   margin: auto;
+  cursor: pointer;
 
   ${({ theme }) => `
     margin-bottom: ${theme.spacing.largeX};

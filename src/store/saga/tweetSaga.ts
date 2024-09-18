@@ -22,6 +22,7 @@ import {
   searchTweetByIdRequest,
   searchTweetByIdSuccess,
   searchTweetByIdFail,
+  fetchAllTweetsRequest,
 } from '@store/tweets/tweetsActions';
 import { TWEET_ACTION_TYPES } from '@store/tweets/types';
 import { Tweet } from '@type/models';
@@ -33,6 +34,7 @@ function* addTweetSaga(action: ReturnType<typeof addTweetRequest>): Generator {
   try {
     yield call([tweetRepository, 'create'], action.payload?.tweet as Partial<Tweet>, action.payload?.userId as string);
     yield put(addTweetSuccess(action.payload?.tweet as Tweet));
+    yield put(fetchAllTweetsRequest());
   } catch (error) {
     yield put(addTweetFail('Failed to add tweet'));
   }
@@ -69,6 +71,7 @@ function* toggleLikeSaga(action: ReturnType<typeof toggleLikeRequest>): Generato
       const updatedTweet = yield call([tweetRepository, 'findOne'], action.payload.tweetId);
       yield put(toggleLikeSuccess(updatedTweet as Tweet));
       yield put(searchTweetByIdRequest(action.payload?.tweetId || ''));
+      yield put(fetchAllTweetsRequest());
     } else {
       yield put(toggleLikeFail('Tweet not found'));
     }

@@ -66,19 +66,25 @@ export const ProfilePage = () => {
     <>
       <Container>
         <ErrorBoundary>
-          <ProfileHeader
-            isAuthUser={isAuthUser}
-            name={currentUser?.name}
-            username={currentUser?.username}
-            bio={currentUser?.bio}
-            followers={currentUser?.followers}
-            following={currentUser?.following}
-            avatarUrl={currentUser.avatarUrl || defautProfile}
-            onEditProfile={handleEditUser}
-            headerPicUrl={currentUser.headerPicUrl}
-          />
-          {isAuthUser && <TweetInput />}
-          <div>{isLoading ? <Loader /> : tweets}</div>
+          {currentUser.id === id ? (
+            <>
+              <ProfileHeader
+                isAuthUser={isAuthUser}
+                name={currentUser?.name}
+                username={currentUser?.username}
+                bio={currentUser?.bio}
+                followers={currentUser?.followers}
+                following={currentUser?.following}
+                avatarUrl={currentUser.avatarUrl || defautProfile}
+                onEditProfile={handleEditUser}
+                headerPicUrl={currentUser.headerPicUrl}
+              />
+              {isAuthUser && <TweetInput />}
+              <div>{isLoading ? <Loader /> : tweets}</div>
+            </>
+          ) : (
+            <Loader />
+          )}
         </ErrorBoundary>
       </Container>
       <EditUserModal isOpen={isModalOpen} onClose={handleCloseModal} user={currentUser} />

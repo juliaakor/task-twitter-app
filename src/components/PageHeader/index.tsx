@@ -20,7 +20,9 @@ export const PageHeader = () => {
   const isTweetPage = location.pathname.startsWith(`/tweet/${tweetId}`);
   const isProfilePage = location.pathname.startsWith(`/profile/${id}`);
 
-  const title = isProfilePage ? userInfo?.name : 'Home';
+  const isValidUser = isProfilePage && userInfo?.id === id;
+
+  const title = isValidUser ? userInfo?.name : 'Home';
 
   const navigate = useNavigate();
 
@@ -35,22 +37,24 @@ export const PageHeader = () => {
   };
 
   return (
-    <HeaderContainer>
-      <HeaderInfo>
-        {isTweetPage && (
-          <>
-            <IconWrapper role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleBackNavigation}>
-              <ArrowLeftIcon />
-            </IconWrapper>
-            {' | '}
-          </>
-        )}
-        <InfoContainer>
-          <Title>{title}</Title>
-          {isProfilePage && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
-        </InfoContainer>
-      </HeaderInfo>
-      <Switch />
-    </HeaderContainer>
+    title && (
+      <HeaderContainer>
+        <HeaderInfo>
+          {isTweetPage && (
+            <>
+              <IconWrapper role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleBackNavigation}>
+                <ArrowLeftIcon />
+              </IconWrapper>
+              {' | '}
+            </>
+          )}
+          <InfoContainer>
+            <Title>{title}</Title>
+            {isValidUser && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
+          </InfoContainer>
+        </HeaderInfo>
+        <Switch />
+      </HeaderContainer>
+    )
   );
 };

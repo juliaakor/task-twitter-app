@@ -45,6 +45,7 @@ export const TweetImagesContainer = styled.div<TweetImagesContainerProps>`
 
 export const TweetImage = styled.img`
   object-fit: cover;
+  cursor: pointer;
 
   ${({ theme }) => `
     width: ${theme.size.full};
@@ -55,6 +56,7 @@ export const TweetImage = styled.img`
 
 export const DropdownIconWrapper = styled.div`
   float: right;
+  cursor: pointer;
 `;
 
 export const TweetContainer = styled.div`
@@ -105,6 +107,7 @@ export const TweetText = styled.p`
 export const LikeContainer = styled.div`
   ${FlexCenter}
   float: left;
+  cursor: pointer;
 
   ${({ theme }) => `
     gap: ${theme.spacing.small4X};
