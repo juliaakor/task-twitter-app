@@ -3,6 +3,7 @@ export const lightColors = {
   bgButtonDisabled: 'rgba(179, 184, 187, 1)',
   bgButtonHover: 'rgb(245 245 245)',
   bgPopup: 'rgba(247, 249, 249, 1)',
+  bgPopupTransparent: 'rgba(113, 116, 117, 0.6)',
   bgPrimary: 'rgba(255, 255, 255, 1)',
   bgSearch: 'rgb(249,249,249)',
   borderButton: 'rgba(0, 0, 0, 0.4)',

@@ -9,6 +9,7 @@ export const LoaderWrapper = styled.div`
 
   ${({ theme }) => `
     width: ${theme.size.full};
+    margin: ${theme.spacing.largeX} ${theme.size.none};
   `}
 `;
 

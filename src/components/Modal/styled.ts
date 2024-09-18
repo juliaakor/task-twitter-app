@@ -5,15 +5,15 @@ import { FlexCenter } from '@styles/mixins';
 export const ModalOverlay = styled.div`
   ${FlexCenter}
   position: fixed;
-  background: transparent;
   z-index: 1000;
-  pointer-events: none;
 
   ${({ theme }) => `
     top: ${theme.size.none};
     left: ${theme.size.none};
     width: ${theme.size.fullvw};
     height: ${theme.size.fullvh};
+
+    background: ${theme.colors.bgPopupTransparent};
   `}
 `;
 

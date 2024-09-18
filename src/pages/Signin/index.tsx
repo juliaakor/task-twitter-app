@@ -18,6 +18,10 @@ export const SigninPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, signInError } = useAppSelector(selectAuthState);
 
+  const handleNavigateHome = () => {
+    navigate(ROUTES.HOME);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate(ROUTES.FEED);
@@ -33,7 +37,7 @@ export const SigninPage = () => {
   return (
     <div>
       <FormContainer>
-        <Image src={TwitterLogo} alt="Twitter Logo" />
+        <Image src={TwitterLogo} alt="Twitter Logo" onClick={handleNavigateHome} />
         <Heading>Log in to Twitter</Heading>
         <ErrorMessage $isVisible={!!signInError}>{signInError}</ErrorMessage>
         <Form defaultValues={defaultValuesSigninForm} yupSchema={loginSchema} onSubmit={onSubmit}>

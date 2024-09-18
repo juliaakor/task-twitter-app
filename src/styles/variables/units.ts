@@ -27,6 +27,7 @@ export const size = {
   fullvw: '100vw',
   half: '50%',
   icon: '20px',
+  iconLarge: '25px',
   imagePreviewMedium: '7.5rem',
   imagePreviewSmall: '5rem',
   imagesPreview: '5.5rem',

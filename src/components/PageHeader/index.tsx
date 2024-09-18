@@ -14,7 +14,7 @@ export const PageHeader = () => {
   const location = useLocation();
   const { id, tweetId } = useParams<Routes>();
 
-  const { userInfo } = useUser();
+  const { isLoading, userInfo } = useUser();
   const { tweetsByUser } = useTweets();
 
   const isTweetPage = location.pathname.startsWith(`/tweet/${tweetId}`);
@@ -35,22 +35,25 @@ export const PageHeader = () => {
   };
 
   return (
-    <HeaderContainer>
-      <HeaderInfo>
-        {isTweetPage && (
-          <>
-            <IconWrapper role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleBackNavigation}>
-              <ArrowLeftIcon />
-            </IconWrapper>
-            {' | '}
-          </>
-        )}
-        <InfoContainer>
-          <Title>{title}</Title>
-          {isProfilePage && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
-        </InfoContainer>
-      </HeaderInfo>
-      <Switch />
-    </HeaderContainer>
+    !isLoading &&
+    title && (
+      <HeaderContainer>
+        <HeaderInfo>
+          {isTweetPage && (
+            <>
+              <IconWrapper role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleBackNavigation}>
+                <ArrowLeftIcon />
+              </IconWrapper>
+              {' | '}
+            </>
+          )}
+          <InfoContainer>
+            <Title>{title}</Title>
+            {isProfilePage && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
+          </InfoContainer>
+        </HeaderInfo>
+        <Switch />
+      </HeaderContainer>
+    )
   );
 };

@@ -22,6 +22,7 @@ export const SelectOptions = styled.select`
   ${({ theme }) => `
     padding: ${theme.spacing.medium2X} ${theme.spacing.mediumX};
     width: ${theme.size.full};
+    background: ${theme.colors.bgPrimary};
   `}
 `;
 

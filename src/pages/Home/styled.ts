@@ -5,11 +5,12 @@ import { media } from '@styles/breakpoints';
 export const PageCountainer = styled.div`
   display: grid;
   grid-template-columns: 60% 40%;
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: 90% 10%;
 
   ${({ theme }) => `
     grid-column-gap: ${theme.size.none}px;
     grid-row-gap: ${theme.size.none}px;
+    min-height: ${theme.size.fullvh};
   `}
 
   ${media[1024]`
@@ -52,6 +53,8 @@ export const GoogleIcon = styled.img`
 `;
 
 export const ImageLogo = styled.img`
+  cursor: pointer;
+
   ${({ theme }) => `
     margin-bottom: ${theme.spacing.large3X};
   `}

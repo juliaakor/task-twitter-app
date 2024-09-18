@@ -1,11 +1,11 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import logoIcon from '@assets/images/twitterLogo.png';
 import { Button, NavItem } from '@components/common';
 import { ButtonType } from '@components/common/Button/types';
 import { Modal } from '@components/Modal';
 import { TweetInput } from '@components/TweetInput';
-import { NAV_ROUTES } from '@constants/routes';
+import { NAV_ROUTES, ROUTES } from '@constants/routes';
 import { useAuth, useModal } from '@hooks/index';
 
 import { LogoIcon, NavbarContainer, NavList } from './styled';
@@ -13,6 +13,12 @@ import { LogoIcon, NavbarContainer, NavList } from './styled';
 export const Navbar = () => {
   const { user } = useAuth();
   const { closeModal, isModalOpen, openModal } = useModal();
+
+  const navigate = useNavigate();
+
+  const handleNavigateHome = () => {
+    navigate(ROUTES.HOME);
+  };
 
   const location = useLocation();
 
@@ -26,7 +32,7 @@ export const Navbar = () => {
 
   return (
     <NavbarContainer>
-      <LogoIcon src={logoIcon} />
+      <LogoIcon src={logoIcon} onClick={handleNavigateHome} />
       <NavList>
         {NAV_ROUTES.map(({ Icon, label, link }) => (
           <NavItem

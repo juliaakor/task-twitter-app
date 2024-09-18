@@ -1,4 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { LikeIcon } from '@assets/icons/likeIcon';
 import { MenuIcon } from '@assets/icons/menuIcon';
@@ -36,6 +37,7 @@ export const Tweet = ({
   timestamp,
   username,
 }: TweetProps) => {
+  const theme = useTheme();
   const { user } = useAuth();
   const { deleteTweet, toggleLike } = useTweets();
 
@@ -92,7 +94,7 @@ export const Tweet = ({
         <Timestamp>{getTimeAgoStringFromDate(timestamp)}</Timestamp>
         {isAuthUser && (
           <DropdownIconWrapper onClick={openDropdown}>
-            <MenuIcon />
+            <MenuIcon color={theme.colors.textPrimary} />
             <OutsideClickProvider onOutsideClick={closeDropdown}>
               <Dropdown isOpen={isDropdownOpen} options={TweetActions} />
             </OutsideClickProvider>
@@ -108,7 +110,7 @@ export const Tweet = ({
         <LikeContainer>
           {likes.length}{' '}
           <div aria-label="Toggle like" role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleToggleLike}>
-            <LikeIcon isOutline={likes.includes(user?.id || '')} />
+            <LikeIcon isOutline={likes.includes(user?.id || '')} color={theme.colors.textPrimary} />
           </div>
         </LikeContainer>
       </Content>

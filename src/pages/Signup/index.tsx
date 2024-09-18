@@ -54,9 +54,13 @@ export const SignupPage = () => {
 
   const signupSchema = useEmail ? emailSpecificSchema : phoneSpecificSchema;
 
+  const handleNavigateHome = () => {
+    navigate(ROUTES.HOME);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(ROUTES.HOME);
+      handleNavigateHome();
     }
   }, [isAuthenticated, navigate]);
 
@@ -78,7 +82,7 @@ export const SignupPage = () => {
 
   return (
     <FormContainer>
-      <Image src={TwitterLogo} alt="Twitter Logo" />
+      <Image src={TwitterLogo} alt="Twitter Logo" onClick={handleNavigateHome} />
       <Heading>Create an account</Heading>
 
       <ErrorMessage $isVisible={!!signUpError}>{signUpError}</ErrorMessage>
