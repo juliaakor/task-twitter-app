@@ -1,9 +1,10 @@
+import { UserWithoutPassword } from '@/types/models/User';
 import { createAction } from '@store/types';
 import { User } from '@type/models';
 
 import { USER_ACTION_TYPES } from './types';
 
-export const editUserRequest = (id: string, userData: Partial<Omit<User, 'password'>>) =>
+export const editUserRequest = (id: string, userData: UserWithoutPassword) =>
   createAction(USER_ACTION_TYPES.EDIT_USER_REQUEST, { id, userData });
 export const editUserSuccess = (user: User) => createAction(USER_ACTION_TYPES.EDIT_USER_SUCCESS, user);
 export const editUserFail = (error: string) => createAction(USER_ACTION_TYPES.EDIT_USER_FAIL, error);

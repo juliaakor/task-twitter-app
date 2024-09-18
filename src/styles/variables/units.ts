@@ -27,19 +27,24 @@ export const size = {
   fullvw: '100vw',
   half: '50%',
   icon: '20px',
+  iconLarge: '25px',
   imagePreviewMedium: '7.5rem',
   imagePreviewSmall: '5rem',
+  imagesPreview: '5.5rem',
+  maxImagePreview: '31.25rem',
   none: 0,
   small: 1,
   small2X: 4,
   small3X: 5,
   smallX: 2,
+  userPreviewSmall: '18rem',
 };
 
 export const radius = {
   button: '76px',
   circle: '50%',
   medium: '8px',
+  search: '24px',
   small: '6px',
   switch: '15px',
 };

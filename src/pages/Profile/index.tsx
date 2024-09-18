@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { UserIdRoute } from '@/types/routes';
 import defautProfile from '@assets/images/defaultProfile.png';
 import { EditUserModal } from '@components/EditUserModal';
-import { Loader } from '@components/index';
+import { ErrorBoundary, Loader } from '@components/index';
 import { ProfileHeader } from '@components/ProfileHeader';
 import { Tweet as TweetItem } from '@components/Tweet';
 import { TweetInput } from '@components/TweetInput';
@@ -15,21 +16,16 @@ import { Container } from '@styles/components';
 export const ProfilePage = () => {
   const { getUserById, userInfo: currentUser } = useUser();
 
-  const { getUserTweets, isLoading, tweetsByUser } = useTweets();
+  const { getUserTweets, tweetsByUser } = useTweets();
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<UserIdRoute>();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    getUserTweets(id);
     getUserById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (currentUser?.id) getUserTweets(currentUser?.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser?.id]);
+  }, [id]);
 
   const handleEditUser = () => {
     setIsModalOpen(true);
@@ -50,6 +46,7 @@ export const ProfilePage = () => {
           isAuthUser={isAuthUser}
           id={tweet.id}
           key={tweet.id}
+          name={currentUser.name}
           username={currentUser?.username || 'Unknown'}
           content={tweet.content}
           likes={tweet.likes}
@@ -62,22 +59,33 @@ export const ProfilePage = () => {
       <div>There are no tweets yet</div>
     );
 
+  const isCurrentUser = currentUser.id === id;
+  const areTweetsFromCurrentUser = tweetsByUser.length > 0 && isCurrentUser;
+
   return (
     <>
       <Container>
-        <ProfileHeader
-          isAuthUser={isAuthUser}
-          name={currentUser?.name}
-          username={currentUser?.username}
-          bio={currentUser?.bio}
-          followers={currentUser?.followers}
-          following={currentUser?.following}
-          avatarUrl={currentUser.avatarUrl || defautProfile}
-          onEditProfile={handleEditUser}
-          headerPicUrl={currentUser.headerPicUrl}
-        />
-        {isAuthUser && <TweetInput />}
-        <div>{isLoading ? <Loader /> : tweets}</div>
+        <ErrorBoundary>
+          {isCurrentUser ? (
+            <>
+              <ProfileHeader
+                isAuthUser={isAuthUser}
+                name={currentUser?.name}
+                username={currentUser?.username}
+                bio={currentUser?.bio}
+                followers={currentUser?.followers}
+                following={currentUser?.following}
+                avatarUrl={currentUser.avatarUrl || defautProfile}
+                onEditProfile={handleEditUser}
+                headerPicUrl={currentUser.headerPicUrl}
+              />
+              {isAuthUser && <TweetInput />}
+              <div>{!areTweetsFromCurrentUser ? <Loader /> : tweets}</div>
+            </>
+          ) : (
+            <Loader />
+          )}
+        </ErrorBoundary>
       </Container>
       <EditUserModal isOpen={isModalOpen} onClose={handleCloseModal} user={currentUser} />
     </>

@@ -1,11 +1,16 @@
 import { KeyboardEvent, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { useTheme } from 'styled-components';
 
 import { LikeIcon } from '@assets/icons/likeIcon';
 import { MenuIcon } from '@assets/icons/menuIcon';
+import { ConfirmationModal } from '@components/ConfirmationModal';
 import { Dropdown } from '@components/Dropdown';
 import { DropdownOption } from '@components/Dropdown/types';
+import { ImagePopup } from '@components/ImagePopup';
 import { OutsideClickProvider } from '@components/OutsideClickProvider';
 import { useAuth, useModal } from '@hooks/index';
+import { useTweets } from '@hooks/useTweets';
 import { getTimeAgoStringFromDate } from '@lib/format/getTimeAgoStringFromDate';
 import { AvatarMedium, Username } from '@styles/components';
 
@@ -18,16 +23,25 @@ import {
   Timestamp,
   TweetText,
   LikeContainer,
-  ModalImage,
+  Name,
 } from './styled';
 import { TweetProps } from './types';
-import { useTweets } from '../../hooks/useTweets';
-import { ConfirmationModal } from '../ConfirmationModal';
-import { Modal } from '../Modal';
 
-export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, timestamp, username }: TweetProps) => {
+export const Tweet = ({
+  avatarUrl,
+  content,
+  id,
+  imagesURLs,
+  isAuthUser,
+  likes,
+  name,
+  timestamp,
+  username,
+}: TweetProps) => {
+  const theme = useTheme();
   const { user } = useAuth();
   const { deleteTweet, toggleLike } = useTweets();
+  const [isLiked, setIsLiked] = useState(likes.includes(user?.id || ''));
 
   const { closeModal: closeDropdown, isModalOpen: isDropdownOpen, openModal: openDropdown } = useModal(false);
   const { closeModal: closeImage, isModalOpen: isImageOpen, openModal: openImage } = useModal(false);
@@ -37,7 +51,7 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
     openModal: openComfirmation,
   } = useModal(false);
 
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
 
   const handleDeleteTweet = async () => {
     if (!user || !isAuthUser) return;
@@ -52,6 +66,10 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
   const handleToggleLike = async () => {
     if (!user) return;
 
+    flushSync(() => {
+      setIsLiked((prev) => !prev);
+    });
+
     toggleLike(id, user.id);
   };
 
@@ -61,7 +79,7 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
   };
 
   const handleCloseImage = () => {
-    setSelectedImage(null);
+    setSelectedImage(undefined);
     closeImage();
   };
 
@@ -75,41 +93,35 @@ export const Tweet = ({ avatarUrl, content, id, imagesURLs, isAuthUser, likes, t
     <TweetContainer>
       <AvatarMedium src={avatarUrl} alt="Avatar" />
       <Content>
+        <Name>{name}</Name>
+
         <Username>{username}</Username>
 
         <Timestamp>{getTimeAgoStringFromDate(timestamp)}</Timestamp>
-
         {isAuthUser && (
           <DropdownIconWrapper onClick={openDropdown}>
-            <MenuIcon />
+            <MenuIcon color={theme.colors.textPrimary} />
             <OutsideClickProvider onOutsideClick={closeDropdown}>
               <Dropdown isOpen={isDropdownOpen} options={TweetActions} />
             </OutsideClickProvider>
           </DropdownIconWrapper>
         )}
-
         <TweetText>{content}</TweetText>
-
         <TweetImagesContainer $imageCount={imagesURLs.length}>
           {imagesURLs &&
             imagesURLs.map((url) => (
               <TweetImage key={url} src={url} alt="attachment" onClick={handleImageClick(url)} />
             ))}
         </TweetImagesContainer>
-
         <LikeContainer>
           {likes.length}{' '}
           <div aria-label="Toggle like" role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleToggleLike}>
-            <LikeIcon isOutline={likes.includes(user?.id || '')} />
+            <LikeIcon isOutline={isLiked} color={theme.colors.textPrimary} />
           </div>
         </LikeContainer>
       </Content>
 
-      {selectedImage && (
-        <Modal isOpen={isImageOpen} onClose={handleCloseImage}>
-          <ModalImage src={selectedImage} alt="Selected" />
-        </Modal>
-      )}
+      <ImagePopup closeImage={handleCloseImage} isImageOpen={isImageOpen} selectedImage={selectedImage} />
 
       <ConfirmationModal isOpen={isComfirmationOpen} onClose={closeComfirmation} onConfirm={handleDeleteTweet} />
     </TweetContainer>

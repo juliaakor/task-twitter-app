@@ -45,6 +45,7 @@ export const TweetImagesContainer = styled.div<TweetImagesContainerProps>`
 
 export const TweetImage = styled.img`
   object-fit: cover;
+  cursor: pointer;
 
   ${({ theme }) => `
     width: ${theme.size.full};
@@ -55,6 +56,7 @@ export const TweetImage = styled.img`
 
 export const DropdownIconWrapper = styled.div`
   float: right;
+  cursor: pointer;
 `;
 
 export const TweetContainer = styled.div`
@@ -76,6 +78,18 @@ export const Content = styled.div`
   `}
 `;
 
+export const Name = styled.span`
+  text-align: left;
+
+  ${({ theme }) => `
+    margin-right: ${theme.spacing.smallX};
+    font-family: ${theme.fontFamily.secondary};
+    font-size: ${theme.fontSize.medium2X};
+    font-weight: ${theme.fontWeight.medium};
+    line-height: ${theme.lineHeight.mediumX};
+  `}
+`;
+
 export const Timestamp = styled.span`
   ${({ theme }) => `
     color: ${theme.colors.textInfo};
@@ -93,6 +107,7 @@ export const TweetText = styled.p`
 export const LikeContainer = styled.div`
   ${FlexCenter}
   float: left;
+  cursor: pointer;
 
   ${({ theme }) => `
     gap: ${theme.spacing.small4X};
@@ -102,15 +117,4 @@ export const LikeContainer = styled.div`
       width: ${theme.size.icon};
     }
   `}
-`;
-
-export const ModalImage = styled.img`
-  margin: auto;
-  max-height: 80vh;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-
-  ${({ theme }) => `
-    width: ${theme.size.full};
-  `};
 `;

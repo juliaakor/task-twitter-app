@@ -6,7 +6,7 @@ import {
   Auth,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
-import { getDoc, setDoc, doc, Firestore, query, collection, where, getDocs } from 'firebase/firestore';
+import { getDoc, setDoc, doc, Firestore, query, collection, where, getDocs, QuerySnapshot } from 'firebase/firestore';
 
 import { auth, db } from '@/firebase';
 import { defaultUserInfo } from '@constants/auth';
@@ -18,6 +18,10 @@ export class UserAuthRepository implements AuthRepository {
   private auth: Auth = auth;
 
   private db: Firestore = db;
+
+  private token: string = '';
+
+  private userId: string = '';
 
   private async getUserAuthSnapshot(email: string, phone: string) {
     const usersRef = collection(this.db, 'users');
@@ -44,16 +48,19 @@ export class UserAuthRepository implements AuthRepository {
     throw new Error('User not found');
   }
 
+  static validateSnapshot(value: string, snapshot: QuerySnapshot, error: string) {
+    if (!value) return;
+
+    if (!snapshot.empty) {
+      throw new Error(error);
+    }
+  }
+
   async validateSignUp(email: string, phone: string) {
     const { emailSnapshot, phoneSnapshot } = await this.getUserAuthSnapshot(email, phone);
 
-    if (!emailSnapshot.empty) {
-      throw new Error('Email is already in use');
-    }
-
-    if (!phoneSnapshot.empty) {
-      throw new Error('Phone number is already in use');
-    }
+    UserAuthRepository.validateSnapshot(email, emailSnapshot, 'Email is already in use');
+    UserAuthRepository.validateSnapshot(phone, phoneSnapshot, 'Phone number is already in use');
   }
 
   async getTokenAndCredential(email: string, password: string, isSignUp: boolean) {
@@ -77,41 +84,67 @@ export class UserAuthRepository implements AuthRepository {
 
     await this.validateSignUp(email, phone);
 
-    const { token, userCredential } = await this.getTokenAndCredential(email, password, true);
-    const userId = userCredential.user.uid;
+    if (email) {
+      const { token, userCredential } = await this.getTokenAndCredential(email, password, true);
+      this.token = token;
+      this.userId = userCredential.user.uid;
+    } else if (phone) {
+      const usersRef = collection(this.db, 'users');
+      const newUserRef = doc(usersRef);
+      this.userId = newUserRef.id;
+    }
 
-    const userRef = doc(this.db, 'users', userId);
+    const usersRef = collection(this.db, 'users');
+    const userRef = doc(usersRef, this.userId);
     const user = {
       ...defaultUserInfo,
       birthday,
-      email,
-      id: userId,
+      email: email || '',
+      id: this.userId,
       name,
       password: await generateHashProvider(password),
-      phone,
-      username: `@${name}_${birthday}`,
+      phone: phone || '',
+      username: `@${name.replace(' ', '_')}${this.userId?.slice(5)}`,
     } as User;
 
     await setDoc(userRef, user);
 
-    return { ...user, token };
+    return { ...user, token: this.token };
   }
 
   async signInUser(data: UserLogin): Promise<User | undefined> {
     const { emailOrPhone, password } = data;
 
-    const {
-      email: userEmail = '',
-      password: userPassword = '',
-      ...userInfo
-    } = await this.getUserByEmailOrPhone(emailOrPhone);
-    const userId = userInfo.id;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 
-    await UserAuthRepository.validateUserPassword(password, userPassword);
+    let userEmail = '';
+    let userPassword = '';
+    let userInfo: Omit<User, 'email' | 'password'>;
 
-    const { token } = await this.getTokenAndCredential(userEmail, password, false);
+    if (isEmail) {
+      const user = await this.getUserByEmailOrPhone(emailOrPhone);
+      userEmail = user.email ?? '';
+      userPassword = user.password ?? '';
+      userInfo = { ...user };
 
-    return { ...userInfo, email: userEmail, id: userId, password: userPassword, token };
+      await UserAuthRepository.validateUserPassword(password, userPassword);
+
+      const { token: firebaseToken } = await this.getTokenAndCredential(userEmail, password, false);
+      this.token ??= firebaseToken;
+    } else {
+      const user = await this.getUserByEmailOrPhone(emailOrPhone);
+      userPassword = user.password ?? '';
+      userInfo = { ...user };
+
+      await UserAuthRepository.validateUserPassword(password, userPassword);
+    }
+
+    this.userId = userInfo.id ?? '';
+    if (!this.userId) {
+      throw new Error('User ID is undefined');
+    }
+
+    return { ...userInfo, email: userEmail, id: this.userId, token: this.token };
   }
 
   static getUserInfoFromGoogleCredential({
@@ -149,7 +182,7 @@ export class UserAuthRepository implements AuthRepository {
         email,
         id: userId,
         name,
-        username: `@${name}_${surname}`,
+        username: `@${surname}${userId.slice(5)}`,
       } as User;
 
       await setDoc(userRef, newUser);
@@ -176,6 +209,8 @@ export class UserAuthRepository implements AuthRepository {
   }
 
   async signOut(): Promise<void> {
+    this.token = '';
+    this.userId = '';
     await firebaseSignOut(this.auth);
   }
 }

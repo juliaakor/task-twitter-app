@@ -7,6 +7,7 @@ export interface TweetProps {
   id: string;
   isAuthUser: boolean;
   likes: string[];
+  name: string;
   onDelete?: (id: string) => void;
 }
 

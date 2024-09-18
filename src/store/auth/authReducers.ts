@@ -31,6 +31,11 @@ export const authReducer: Reducer<AuthState, AuthActionTypes> = (state = initial
         ...initialState,
         isLoading: true,
       };
+    case AUTH_ACTION_TYPES.UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        user: (action as PayloadUser).payload,
+      };
     case AUTH_ACTION_TYPES.SIGN_IN_SUCCESS:
     case AUTH_ACTION_TYPES.SIGN_UP_SUCCESS:
     case AUTH_ACTION_TYPES.SIGN_UP_WITH_GOOGLE_SUCCESS:

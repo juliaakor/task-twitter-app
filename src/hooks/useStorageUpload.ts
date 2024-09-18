@@ -1,6 +1,7 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useState } from 'react';
 
+import { generateIdWithoutHash } from '@/lib/auth/generateId';
 import { failLoadMoreImagedToast } from '@lib/toasts';
 
 import { useError } from './useError';
@@ -57,7 +58,7 @@ export const useStorageUpload = () => {
 
     const newFiles = Array.from(e.target.files).map((file) => ({
       file,
-      id: file.name,
+      id: file.name + generateIdWithoutHash(),
     }));
 
     const totalImages = selectedImages.length + newFiles.length;

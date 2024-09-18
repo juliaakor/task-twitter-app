@@ -10,6 +10,10 @@ export const TweetInputContainer = styled.div`
   `}
 `;
 
+export const ImageButtonContainer = styled.div`
+  cursor: pointer;
+`;
+
 export const InputArea = styled.div`
   flex: 1;
   display: flex;
@@ -27,6 +31,7 @@ export const TextArea = styled.textarea`
     border-radius: ${theme.radius.small};
     font-family: ${theme.fontFamily.primary};
     color: ${theme.colors.textPrimary};
+    background: ${theme.colors.bgPrimary};
   `}
 `;
 

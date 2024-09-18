@@ -17,6 +17,8 @@ export const NavList = styled.ul`
 `;
 
 export const LogoIcon = styled.img`
+  cursor: pointer;
+
   ${({ theme }) => `
     margin-bottom:  ${theme.spacing.large4X};
   `}
