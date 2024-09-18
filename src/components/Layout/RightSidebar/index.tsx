@@ -14,7 +14,7 @@ export const RightSidebar = () => {
   return (
     <RightSidebarContainer>
       <Search userId={id} />
-      {id && <UserPicturesPreview />}
+      {id && <UserPicturesPreview id={id} />}
       <SuggestionsSection />
       <Footer isFullView={false} />
     </RightSidebarContainer>

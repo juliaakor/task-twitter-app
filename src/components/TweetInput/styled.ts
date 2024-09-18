@@ -31,6 +31,7 @@ export const TextArea = styled.textarea`
     border-radius: ${theme.radius.small};
     font-family: ${theme.fontFamily.primary};
     color: ${theme.colors.textPrimary};
+    background: ${theme.colors.bgPrimary};
   `}
 `;
 

@@ -1,4 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useTheme } from 'styled-components';
 
 import { LikeIcon } from '@assets/icons/likeIcon';
@@ -40,6 +41,7 @@ export const Tweet = ({
   const theme = useTheme();
   const { user } = useAuth();
   const { deleteTweet, toggleLike } = useTweets();
+  const [isLiked, setIsLiked] = useState(likes.includes(user?.id || ''));
 
   const { closeModal: closeDropdown, isModalOpen: isDropdownOpen, openModal: openDropdown } = useModal(false);
   const { closeModal: closeImage, isModalOpen: isImageOpen, openModal: openImage } = useModal(false);
@@ -63,6 +65,10 @@ export const Tweet = ({
 
   const handleToggleLike = async () => {
     if (!user) return;
+
+    flushSync(() => {
+      setIsLiked((prev) => !prev);
+    });
 
     toggleLike(id, user.id);
   };
@@ -110,7 +116,7 @@ export const Tweet = ({
         <LikeContainer>
           {likes.length}{' '}
           <div aria-label="Toggle like" role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleToggleLike}>
-            <LikeIcon isOutline={likes.includes(user?.id || '')} color={theme.colors.textPrimary} />
+            <LikeIcon isOutline={isLiked} color={theme.colors.textPrimary} />
           </div>
         </LikeContainer>
       </Content>

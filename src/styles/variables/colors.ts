@@ -27,5 +27,6 @@ export const darkColors = {
   bgButtonHover: 'rgb(245, 245, 245, 0.13)',
   bgPopup: 'rgba(55, 55, 55, 0.78)',
   bgPrimary: 'rgba(0, 0, 0, 1)',
+  bgSearch: 'rgb(65, 65, 65)',
   textPrimary: 'rgb(223, 213, 213)',
 };

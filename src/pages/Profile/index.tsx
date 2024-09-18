@@ -16,19 +16,16 @@ import { Container } from '@styles/components';
 export const ProfilePage = () => {
   const { getUserById, userInfo: currentUser } = useUser();
 
-  const { getUserTweets, isLoading, tweetsByUser } = useTweets();
+  const { getUserTweets, tweetsByUser } = useTweets();
 
   const { id } = useParams<UserIdRoute>();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    getUserTweets(id);
     getUserById(id);
   }, [id]);
-
-  useEffect(() => {
-    if (currentUser?.id) getUserTweets(currentUser?.id);
-  }, [currentUser?.id]);
 
   const handleEditUser = () => {
     setIsModalOpen(true);
@@ -62,11 +59,14 @@ export const ProfilePage = () => {
       <div>There are no tweets yet</div>
     );
 
+  const isCurrentUser = currentUser.id === id;
+  const areTweetsFromCurrentUser = tweetsByUser.length > 0 && isCurrentUser;
+
   return (
     <>
       <Container>
         <ErrorBoundary>
-          {currentUser.id === id ? (
+          {isCurrentUser ? (
             <>
               <ProfileHeader
                 isAuthUser={isAuthUser}
@@ -80,7 +80,7 @@ export const ProfilePage = () => {
                 headerPicUrl={currentUser.headerPicUrl}
               />
               {isAuthUser && <TweetInput />}
-              <div>{isLoading ? <Loader /> : tweets}</div>
+              <div>{!areTweetsFromCurrentUser ? <Loader /> : tweets}</div>
             </>
           ) : (
             <Loader />
