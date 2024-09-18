@@ -17,9 +17,6 @@ export const useTweets = () => {
 
   const addTweet = async (tweet: Partial<Tweet>, userId: string) => {
     const tweetPayload = {
-      author: {
-        id: userId,
-      },
       content: tweet.content,
       createdAt: new Date().toISOString(),
       id: await generateId(),

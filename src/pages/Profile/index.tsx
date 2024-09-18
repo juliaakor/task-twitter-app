@@ -23,12 +23,9 @@ export const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    getUserTweets(id);
     getUserById(id);
   }, [id]);
-
-  useEffect(() => {
-    if (currentUser?.id) getUserTweets(currentUser?.id);
-  }, [currentUser?.id]);
 
   const handleEditUser = () => {
     setIsModalOpen(true);
@@ -63,7 +60,7 @@ export const ProfilePage = () => {
     );
 
   const isCurrentUser = currentUser.id === id;
-  const areTweetsFromCurrentUser = tweetsByUser.length > 0 && tweetsByUser[0].author.id === id;
+  const areTweetsFromCurrentUser = tweetsByUser.length > 0 && isCurrentUser;
 
   return (
     <>

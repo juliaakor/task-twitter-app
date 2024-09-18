@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useModal } from '@/hooks';
+import { useUser } from '@/hooks/useUser';
 import { ImagePopup } from '@components/ImagePopup';
 import { useTweets } from '@hooks/useTweets';
 
@@ -14,6 +15,7 @@ export const UserPicturesPreview = ({ id }: UserPicturesPreviewProps) => {
   const [selectedImage, setSelectedImage] = useState<string | undefined>();
 
   const { tweetsByUser } = useTweets();
+  const { userInfo } = useUser();
   const [images, setImages] = useState<string[]>([]);
 
   const handleImageClick = (url: string) => () => {
@@ -30,7 +32,7 @@ export const UserPicturesPreview = ({ id }: UserPicturesPreviewProps) => {
     setImages(tweetsByUser.filter((tweet) => tweet.images).flatMap((tweet) => tweet.images || []));
   }, [tweetsByUser]);
 
-  const isCurrentUser = tweetsByUser.length > 0 && id === tweetsByUser[0].author.id;
+  const isCurrentUser = images && tweetsByUser.length > 0 && id === userInfo?.id;
 
   return (
     isCurrentUser && (

@@ -20,13 +20,19 @@ export const tweetReducer: Reducer<TweetsState, TweetActionTypes> = (state = ini
     case TWEET_ACTION_TYPES.DELETE_TWEET_REQUEST:
     case TWEET_ACTION_TYPES.TOGGLE_LIKE_REQUEST:
     case TWEET_ACTION_TYPES.FETCH_ALL_TWEETS_REQUEST:
-    case TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_REQUEST:
     case TWEET_ACTION_TYPES.SEARCH_TWEETS_REQUEST:
     case TWEET_ACTION_TYPES.SEARCH_TWEET_BY_ID_REQUEST:
       return {
         ...state,
         error: null,
         isLoading: true,
+      };
+    case TWEET_ACTION_TYPES.SEARCH_TWEETS_BY_USER_REQUEST:
+      return {
+        ...state,
+        error: null,
+        isLoading: true,
+        tweets: [],
       };
     case TWEET_ACTION_TYPES.ADD_TWEET_SUCCESS:
       return {
