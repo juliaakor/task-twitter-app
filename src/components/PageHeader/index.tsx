@@ -14,13 +14,15 @@ export const PageHeader = () => {
   const location = useLocation();
   const { id, tweetId } = useParams<Routes>();
 
-  const { isLoading, userInfo } = useUser();
+  const { userInfo } = useUser();
   const { tweetsByUser } = useTweets();
 
   const isTweetPage = location.pathname.startsWith(`/tweet/${tweetId}`);
   const isProfilePage = location.pathname.startsWith(`/profile/${id}`);
 
-  const title = isProfilePage ? userInfo?.name : 'Home';
+  const isValidUser = isProfilePage && userInfo?.id === id;
+
+  const title = isValidUser ? userInfo?.name : 'Home';
 
   const navigate = useNavigate();
 
@@ -35,7 +37,6 @@ export const PageHeader = () => {
   };
 
   return (
-    !isLoading &&
     title && (
       <HeaderContainer>
         <HeaderInfo>
@@ -49,7 +50,7 @@ export const PageHeader = () => {
           )}
           <InfoContainer>
             <Title>{title}</Title>
-            {isProfilePage && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
+            {isValidUser && <SubTitle>{`${tweetsByUser.length} Tweets`}</SubTitle>}
           </InfoContainer>
         </HeaderInfo>
         <Switch />

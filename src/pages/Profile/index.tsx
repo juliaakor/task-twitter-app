@@ -66,7 +66,7 @@ export const ProfilePage = () => {
     <>
       <Container>
         <ErrorBoundary>
-          {currentUser ? (
+          {currentUser.id === id ? (
             <>
               <ProfileHeader
                 isAuthUser={isAuthUser}
