@@ -95,8 +95,6 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   async searchUsers(queryStr: string): Promise<Omit<User, 'password'>[]> {
-    const normalizedQueryStr = queryStr.replace(/^@/, '');
-
     const usersByNameQuery = query(
       collection(this.db, 'users'),
       where('name', '>=', queryStr),
@@ -106,8 +104,8 @@ export class UserRepository extends BaseRepository<User> {
 
     const usersByUsernameQuery = query(
       collection(this.db, 'users'),
-      where('username', '>=', normalizedQueryStr),
-      where('username', '<=', `${normalizedQueryStr}\uf8ff`),
+      where('username', '>=', queryStr),
+      where('username', '<=', `${queryStr}\uf8ff`),
       orderBy('username')
     );
 
