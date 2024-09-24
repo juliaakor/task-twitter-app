@@ -30,6 +30,8 @@ const failToastConfig = {
 
 export const failLoadMoreImagedToast = () => toast('Sorry, you cannot add more than 4 images', failToastConfig);
 
+export const failImageSizeLimitToast = (message: string) => toast(message, failToastConfig);
+
 export const passwordResetSuccess = () => toast('Password was updated', successToastConfig);
 
 export const passwordResetFail = () => toast('Sorry, couldnt update the password, try again later', failToastConfig);

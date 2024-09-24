@@ -1,5 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
+import { isFileOverLimit } from '@/lib/helpers';
 import { Button, Form, Input } from '@components/common';
 import { ButtonType } from '@components/common/Button/types';
 import { Modal } from '@components/Modal';
@@ -55,19 +56,27 @@ export const EditUserModal = ({ isOpen, onClose, user }: EditUserModalProps) => 
     }
   };
 
+  const handleFileChange = (file: File | null, setFile: (file: File | null) => void) => {
+    if (file && isFileOverLimit(file)) {
+      setFile(file);
+    } else {
+      setFile(null);
+    }
+  };
+
   const USER_FILES_INPUTS = [
     {
       file: avatar,
       label: 'Choose avatar',
       name: 'avatar',
-      onChange: (e: ChangeEvent<HTMLInputElement>) => setAvatar(e.target.files?.[0] || null),
+      onChange: (e: ChangeEvent<HTMLInputElement>) => handleFileChange(e.target.files?.[0] || null, setAvatar),
       ref: avatarInputRef,
     },
     {
       file: header,
       label: 'Choose header',
       name: 'header',
-      onChange: (e: ChangeEvent<HTMLInputElement>) => setHeader(e.target.files?.[0] || null),
+      onChange: (e: ChangeEvent<HTMLInputElement>) => handleFileChange(e.target.files?.[0] || null, setHeader),
       ref: headerInputRef,
     },
   ];
