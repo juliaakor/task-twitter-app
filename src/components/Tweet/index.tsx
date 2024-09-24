@@ -42,6 +42,7 @@ export const Tweet = ({
   const { user } = useAuth();
   const { deleteTweet, toggleLike } = useTweets();
   const [isLiked, setIsLiked] = useState(likes.includes(user?.id || ''));
+  const [likesCount, setLikesCount] = useState(likes.length);
 
   const { closeModal: closeDropdown, isModalOpen: isDropdownOpen, openModal: openDropdown } = useModal(false);
   const { closeModal: closeImage, isModalOpen: isImageOpen, openModal: openImage } = useModal(false);
@@ -68,6 +69,7 @@ export const Tweet = ({
 
     flushSync(() => {
       setIsLiked((prev) => !prev);
+      setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
     });
 
     toggleLike(id, user.id);
@@ -114,7 +116,7 @@ export const Tweet = ({
             ))}
         </TweetImagesContainer>
         <LikeContainer>
-          {likes.length}{' '}
+          {likesCount}{' '}
           <div aria-label="Toggle like" role="button" tabIndex={0} onKeyDown={handleKeyDown} onClick={handleToggleLike}>
             <LikeIcon isOutline={isLiked} color={theme.colors.textPrimary} />
           </div>
