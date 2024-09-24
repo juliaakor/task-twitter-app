@@ -14,3 +14,9 @@ export const FlexCenter = css`
   justify-content: center;
   align-items: center;
 `;
+
+export const TextOverflow = css`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
