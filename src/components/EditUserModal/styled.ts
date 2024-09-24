@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { TextOverflow } from '@/styles/mixins';
+
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,9 +42,7 @@ export const FileLabel = styled.label`
 `;
 
 export const FileName = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${TextOverflow}
 
   ${({ theme }) => `
     font-size: ${theme.fontSize.smallX};

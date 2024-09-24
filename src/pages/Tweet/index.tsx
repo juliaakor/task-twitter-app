@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { Loader } from '@/components';
 import { Tweet } from '@/components/Tweet';
 import { useAuth } from '@/hooks';
 import { useTweets } from '@/hooks/useTweets';
@@ -19,22 +20,27 @@ export const TweetPage = () => {
   }, [tweetId]);
 
   const isAuthUser = activeTweet?.author?.id === user?.id;
+  const isCurrentTweet = tweetId === activeTweet?.id;
 
   return (
     <div>
       <ErrorBoundary>
-        <Tweet
-          isAuthUser={isAuthUser}
-          id={activeTweet?.id || ''}
-          key={activeTweet?.id}
-          name={activeTweet?.author?.name || ''}
-          username={activeTweet?.author?.username || 'Unknown'}
-          content={activeTweet?.content || ''}
-          likes={activeTweet?.likes || []}
-          timestamp={activeTweet?.createdAt || ''}
-          avatarUrl={activeTweet?.author?.avatarUrl || defautProfile}
-          imagesURLs={activeTweet?.images || []}
-        />
+        {isCurrentTweet ? (
+          <Tweet
+            isAuthUser={isAuthUser}
+            id={activeTweet?.id || ''}
+            key={activeTweet?.id}
+            name={activeTweet?.author?.name || ''}
+            username={activeTweet?.author?.username || 'Unknown'}
+            content={activeTweet?.content || ''}
+            likes={activeTweet?.likes || []}
+            timestamp={activeTweet?.createdAt || ''}
+            avatarUrl={activeTweet?.author?.avatarUrl || defautProfile}
+            imagesURLs={activeTweet?.images || []}
+          />
+        ) : (
+          <Loader />
+        )}
       </ErrorBoundary>
     </div>
   );
