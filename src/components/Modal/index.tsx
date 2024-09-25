@@ -10,6 +10,10 @@ export const Modal = ({ children, isOpen, onClose }: ModalProps) => {
   useEffect(() => {
     const body = document.body.style;
     body.overflow = isOpen ? 'hidden' : 'auto';
+
+    return () => {
+      body.overflow = 'auto';
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
